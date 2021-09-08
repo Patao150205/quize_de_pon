@@ -17,7 +17,7 @@ class CreateQuizeGroupsTable extends Migration
             $table->id();
             $table->string('title');
             $table->text('information');
-            $table->unsignedInteger('good_count');
+            $table->unsignedInteger('good_count')->default(0);
             $table->foreignId('user_id')->constrained()->nullable();
             $table->foreignId('category_id')->constrained();
             $table->timestamps();

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\QuizeGroupController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,8 +19,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::name('category.')->group(function () {
+    Route::get('/category', [CategoryController::class, 'index'])->name('index');
+    Route::get('/category/{category}', [CategoryController::class, 'show'])->name('show');
+});
 
-require __DIR__.'/auth.php';
+Route::resource('quize_group', QuizeGroupController::class);
+
+
+require __DIR__ . '/auth.php';
