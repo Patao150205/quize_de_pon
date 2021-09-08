@@ -15,22 +15,20 @@ class CategoryController extends Controller
     }
     public function show($category_name)
     {
+        $category = null;
 
-        if ($category_name === 'random') {
-            $category =  DB::table('categories')->get();
+        if ($category_name === 'all') {
+            $quize_groups = DB::table('quize_groups')->select('quize_groups.id', 'title', 'name', 'good_count')->join('users', 'users.id', '=', 'quize_groups.user_id')->get();
         } else {
-            $category = DB::table('categories')->where('name', '=', $category_name)->get();
+            $category = DB::table('categories')->select('id', 'name_jp')->where('name', '=', $category_name)->get();
+            if ($category->isEmpty()) {
+                abort('404');
+            }
+            $category = $category[0];
+            $quize_groups = DB::table('quize_groups')->select('quize_groups.id', 'title', 'name', 'good_count')->join('users', 'users.id', '=', 'quize_groups.user_id')->where('category_id', $category->id)->get();
         }
 
-        if ($category->isEmpty()) {
-            abort('404');
-        }
 
-
-        $category = $category[0];
-
-
-        $quize_groups = DB::table('quize_groups')->where('category_id', $category->id)->get();
         return view('category.show', compact('quize_groups', 'category'));
     }
 }

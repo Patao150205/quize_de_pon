@@ -24,7 +24,9 @@ Route::name('category.')->group(function () {
     Route::get('/category/{category}', [CategoryController::class, 'show'])->name('show');
 });
 
-Route::resource('quize_group', QuizeGroupController::class);
+Route::name('quize_group.')->group(function () {
+    Route::get('/quize_group/{group}', [QuizeGroupController::class, 'show'])->name('show');
+});
 
 
 require __DIR__ . '/auth.php';
