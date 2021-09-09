@@ -23,7 +23,8 @@
                                         </a>
                                     </td>
                                     <td class="p-2 border">
-                                        <a href="#" class="underline hover:text-sky-500">{{ $group->title }}</a>
+                                        <a href="{{ route('quize_group.show', ['group' => $group->id]) }}"
+                                            class="underline hover:text-sky-500">{{ $group->title }}</a>
                                     </td>
                                     <td class="border">{{ $group->good_count }}</td>
                                 </tr>

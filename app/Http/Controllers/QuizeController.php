@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class QuizeGroupController extends Controller
+class QuizeController extends Controller
 {
     public function create()
     {
@@ -24,16 +24,39 @@ class QuizeGroupController extends Controller
     public function show($id)
     {
         $group = DB::table('quize_groups')
-            ->select(DB::row('users.id as user_id, users.name as username, categories.name as category_name, information, good_count, title'))
-            ->join('categories', '=', 'quize_groups.category_id')
+            ->select(DB::raw('users.id as user_id, quize_groups.id as group_id, users.name as username, categories.name as category_name_jp, information, good_count, title'))
+            ->join('categories', 'categories.id', '=', 'quize_groups.category_id')
             ->join('users', 'users.id', '=', 'quize_groups.user_id')
             ->where('quize_groups.id', '=', $id)
             ->get();
 
-        dd($group);
         if ($group->isEmpty()) {
             abort('404');
         }
+        $count = DB::table('quizes')
+            ->select(DB::raw('count(*) as count'))
+            ->where('quize_group_id', $id)
+            ->get()[0]->count;
+
+        return view('quize-group.show', ['group' => $group[0], 'count' => $count]);
+    }
+
+    public function showQuize($group_id, $sort_num)
+    {
+        if ($sort_num <= 0) {
+            abort('404');
+        }
+
+        $quize_quantity = DB::table('quizes')->select(DB::raw('count(*) as quantity'))->where('quize_group_id', $group_id)->get()[0]->quantity;
+
+        if ($quize_quantity != 0 && $sort_num <= $quize_quantity) {
+            $quize = DB::table('quizes')->where('quize_group_id', $group_id)->where('sort_num', $sort_num)->get()[0];
+        } else {
+            abort('404');
+        }
+
+
+        return view('quize.show', compact('quize'));
     }
 
     /**
