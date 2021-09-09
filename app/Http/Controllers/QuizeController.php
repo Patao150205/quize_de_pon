@@ -7,10 +7,13 @@ use Illuminate\Support\Facades\DB;
 
 class QuizeController extends Controller
 {
+    public function result()
+    {
+        return view('quize-group.result');
+    }
     public function create()
     {
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -19,8 +22,8 @@ class QuizeController extends Controller
      */
     public function store(Request $request)
     {
-        //
     }
+    // クイズグループ
     public function show($id)
     {
         $group = DB::table('quize_groups')
@@ -40,7 +43,7 @@ class QuizeController extends Controller
 
         return view('quize-group.show', ['group' => $group[0], 'count' => $count]);
     }
-
+    // クイズ単体
     public function showQuize($group_id, $sort_num)
     {
         if ($sort_num <= 0) {
@@ -51,12 +54,12 @@ class QuizeController extends Controller
 
         if ($quize_quantity != 0 && $sort_num <= $quize_quantity) {
             $quize = DB::table('quizes')->where('quize_group_id', $group_id)->where('sort_num', $sort_num)->get()[0];
+            $isLast = $sort_num == $quize_quantity ? 'true' : 'false';
         } else {
             abort('404');
         }
 
-
-        return view('quize.show', compact('quize'));
+        return view('quize.show', compact('quize', 'isLast'));
     }
 
     /**
