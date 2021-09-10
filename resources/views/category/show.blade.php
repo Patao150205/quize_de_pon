@@ -15,7 +15,6 @@
                         </thead>
                         <tbody>
                             @foreach ($quize_groups as $group)
-
                                 <tr class="py-2">
                                     <td class="border hover:text-sky-500">
                                         <a href="#">
@@ -26,7 +25,7 @@
                                         <a href="{{ route('quize_group.show', ['group' => $group->id]) }}"
                                             class="underline hover:text-sky-500">{{ $group->title }}</a>
                                     </td>
-                                    <td class="border">{{ $group->good_count }}</td>
+                                    <td class="border">{{ $goodCount }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

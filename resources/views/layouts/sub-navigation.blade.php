@@ -10,15 +10,15 @@
                 クイズ一覧
             </x-nav-link>
         </div>
-        {{-- <div class="hidden sm:-my-px flex-grow sm:block">
-            <x-nav-link :href="route('quize_group.index')" :active="request()->routeIs('dashboard')">
+        <div class="hidden sm:-my-px flex-grow sm:block">
+            <x-nav-link :href="route('like.favoriteIndex')" :active="request()->routeIs('dashboard')">
                 お気に入り
             </x-nav-link>
         </div>
         <div class="hidden  sm:-my-px flex-grow sm:block">
-            <x-nav-link :href="route('quize_group.index')" :active="request()->routeIs('dashboard')">
+            <x-nav-link :href="route('quize_group.create')" :active="request()->routeIs('dashboard')">
                 クイズの作成
             </x-nav-link>
-        </div> --}}
+        </div>
     </div>
 </div>

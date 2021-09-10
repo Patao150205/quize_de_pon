@@ -5,9 +5,26 @@ namespace App\Http\Controllers;
 use App\Models\Favorite;
 use App\Models\Good;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class LikeController extends Controller
 {
+    public function favoriteIndex()
+    {
+        $favorites = DB::table('favorites')
+            ->select(DB::raw('users.id, quize_groups.id as quize_group_id ,title, users.name, name_jp, categories.name as category_name'))
+            ->join('quize_groups', 'quize_groups.id', '=', 'favorites.quize_group_id')
+            ->join('categories', 'categories.id', '=', 'quize_groups.category_id')
+            ->join('users', 'users.id', '=', 'favorites.user_id')
+            ->where('favorites.user_id', Auth::id())
+            ->get();
+
+
+        // dd($favorites);
+
+        return view('favorite.index', compact('favorites'));
+    }
     public function toggleFavorite($groupId, $user_id)
     {
         $isFavorite = Favorite::where('quize_group_id', $groupId)->where('user_id', $user_id)->exists();

@@ -18,7 +18,7 @@ class CategoryController extends Controller
         $category = null;
 
         if ($category_name === 'all') {
-            $quize_groups = DB::table('quize_groups')->select('quize_groups.id', 'title', 'name', 'good_count')->join('users', 'users.id', '=', 'quize_groups.user_id')->get();
+            $quize_groups = DB::table('quize_groups')->select('quize_groups.id', 'title', 'name')->join('users', 'users.id', '=', 'quize_groups.user_id')->get();
         } else {
             $category = DB::table('categories')->select('id', 'name_jp')->where('name', '=', $category_name)->get();
             if ($category->isEmpty()) {
@@ -28,7 +28,8 @@ class CategoryController extends Controller
             $quize_groups = DB::table('quize_groups')->select('quize_groups.id', 'title', 'name', 'good_count')->join('users', 'users.id', '=', 'quize_groups.user_id')->where('category_id', $category->id)->get();
         }
 
+        $goodCount = DB::table('goods')->select(DB::raw('count(*) as goodCount'))->get()[0]->goodCount;
 
-        return view('category.show', compact('quize_groups', 'category'));
+        return view('category.show', compact('quize_groups', 'category', 'goodCount'));
     }
 }

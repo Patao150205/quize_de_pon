@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Services\LikeService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class QuizeController extends Controller
@@ -31,6 +30,7 @@ class QuizeController extends Controller
     }
     public function create()
     {
+        return view('quize-group.create');
     }
     /**
      * Store a newly created resource in storage.
@@ -40,6 +40,7 @@ class QuizeController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request);
     }
     // クイズグループ
     public function show($id)

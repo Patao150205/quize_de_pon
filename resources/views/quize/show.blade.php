@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout reset="0">
     <div class="py-12 relative">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -30,11 +30,11 @@
             const modal = document.getElementById('modal');
             modal.classList.remove('hidden');
             const selectedChoice = e.dataset.choice;
-            console.log(selectedChoice)
             if ('{{ $quize->answer_choice }}' === selectedChoice) {
                 const correcct = document.getElementById('correct');
                 correct.classList.remove('hidden');
                 correct.classList.add('flex');
+                sessionStorage['correct_count'] = Number(sessionStorage['correct_count']) + 1;
             } else {
                 const incorrect = document.getElementById('incorrect');
                 incorrect.classList.remove('hidden');

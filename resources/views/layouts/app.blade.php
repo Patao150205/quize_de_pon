@@ -20,6 +20,12 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script defer>
+        console.log({{ $reset }});
+        @if ($reset)
+            sessionStorage['correct_count'] = 0;
+        @endif
+    </script>
 </head>
 
 <body class="font-sans antialiased">
