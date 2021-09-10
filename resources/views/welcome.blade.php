@@ -10,11 +10,11 @@
                 </div>
             </h1>
             <div class="mx-auto max-w-sm flex flex-col space-y-8">
-                <button
+                <button onclick="location.href='{{ route('category.index') }}'"
                     class="transition transform animate-pulse hover:scale-150 py-2 hover:text-black rounded-full border-4 border-red-500 ">
                     ぽんぽんする！！
                 </button>
-                <button
+                <button onclick=""
                     class="transition transform hover:scale-150 py-2 hover:text-black rounded-full border-4 hover:border-yellow-200 bg">
                     クイズの作成
                 </button>

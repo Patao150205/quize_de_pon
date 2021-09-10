@@ -27,7 +27,7 @@
                                                 class="underline hover:text-sky-500">{{ $favorite->title }}</a>
                                         </td>
                                         <td class="border">
-                                            <a
+                                            <a class="hover:text-sky-500"
                                                 href="{{ route('category.show', ['category' => $favorite->category_name]) }}">
                                                 {{ $favorite->name_jp }}
                                             </a>

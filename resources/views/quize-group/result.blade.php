@@ -42,8 +42,17 @@
         </div>
     </div>
     <script>
-        const resultCount = document.getElementById('result-count');
         const correctCount = sessionStorage.getItem('correct_count');
+
+        if ({{ $count }} == correctCount) {
+            const music = new Audio('{{ asset('audio/perfect-result.mp3') }}');
+            music.play();
+        } else {
+            const music = new Audio('{{ asset('audio/result.mp3') }}');
+            music.play();
+        }
+
+        const resultCount = document.getElementById('result-count');
         resultCount.innerText = `正答数: ${correctCount} / {{ $count }}`;
         let toggleLike;
         let handleLike;

@@ -26,19 +26,31 @@
         </x-quize.answer-modal>
     </div>
     <script>
+        const music = new Audio('{{ asset('audio/question.mp3') }}');
+        music.play();
+
         function selectChoice(e) {
             const modal = document.getElementById('modal');
             modal.classList.remove('hidden');
             const selectedChoice = e.dataset.choice;
+            // 正解
             if ('{{ $quize->answer_choice }}' === selectedChoice) {
                 const correcct = document.getElementById('correct');
                 correct.classList.remove('hidden');
                 correct.classList.add('flex');
                 sessionStorage['correct_count'] = Number(sessionStorage['correct_count']) + 1;
-            } else {
+
+                const music = new Audio('{{ asset('audio/correct-answer.mp3') }}');
+                music.play();
+            }
+            // 不正解
+            else {
                 const incorrect = document.getElementById('incorrect');
                 incorrect.classList.remove('hidden');
                 incorrect.classList.add('flex');
+
+                const music = new Audio('{{ asset('audio/incorrect-answer.mp3') }}');
+                music.play();
             }
 
             const correctAnswer = document.getElementById('{{ $quize->answer_choice }}').innerText;

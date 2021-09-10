@@ -39,6 +39,8 @@
                             <button
                                 onclick="location.href='{{ route('quize_group.showQuize', ['group' => $group->group_id, 'quize' => 1]) }}'"
                                 class=" py-2 px-4 text-white border border-red-400 bg-red-400 focus:border-red-500 focus:bg-red-500 animate-pulse">クイズを解く</button>
+
+                            <p class="m-4 text-red-500">プレイ中は、音がなるから注意してね！</p>
                         </div>
                     </div>
                 </div>

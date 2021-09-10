@@ -7,6 +7,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+})->name('welcome');
+
+Route::name('user.')->group(function () {
+    // Route::get('/user/{show}', [])
+    Route::get('/user/{show}', [UserContrller::class, 'show'])->name('show');
 });
 
 Route::name('category.')->group(function () {
