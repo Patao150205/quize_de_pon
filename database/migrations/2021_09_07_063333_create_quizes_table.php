@@ -16,13 +16,15 @@ class CreateQuizesTable extends Migration
     {
         Schema::create('quizes', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
             $table->string('question');
             $table->string('choice1');
             $table->string('choice2');
             $table->string('choice3');
-            $table->string('answer_choice');
-            $table->text('explanation');
+            $table->string('choice4');
+            $table->char('answer_choice', 7);
+            $table->text('explanation')->nullable();
+            $table->unsignedTinyInteger('sort_num');
+            $table->foreignId('quize_group_id')->index('group')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('question_image_id')->nullable()->constrained('images');
             $table->foreignId('explanation_image_id')->nullable()->constrained('images');
             $table->timestamps();
