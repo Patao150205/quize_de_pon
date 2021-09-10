@@ -2,14 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\LikeService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class QuizeController extends Controller
 {
-    public function result()
+    public function result($id)
     {
-        return view('quize-group.result');
+        $group = DB::table('quize_groups')
+            ->select()
+            ->where('id', $id)
+            ->get();
+
+        if ($group->isEmpty()) {
+            abort('404');
+        }
+
+        $count = DB::table('quizes')
+            ->select(DB::raw('count(*) as count'))
+            ->where('quize_group_id', $id)
+            ->get()[0]->count;
+
+        $status = LikeService::searchLikeStatus($group[0]->id);
+
+        return view('quize-group.result', ['group' => $group[0], 'count' => $count], $status);
     }
     public function create()
     {
@@ -27,7 +45,7 @@ class QuizeController extends Controller
     public function show($id)
     {
         $group = DB::table('quize_groups')
-            ->select(DB::raw('users.id as user_id, quize_groups.id as group_id, users.name as username, categories.name as category_name_jp, information, good_count, title'))
+            ->select(DB::raw('users.id as user_id, quize_groups.id as group_id, users.name as username, categories.name as category_name_jp, information, title'))
             ->join('categories', 'categories.id', '=', 'quize_groups.category_id')
             ->join('users', 'users.id', '=', 'quize_groups.user_id')
             ->where('quize_groups.id', '=', $id)
@@ -36,12 +54,10 @@ class QuizeController extends Controller
         if ($group->isEmpty()) {
             abort('404');
         }
-        $count = DB::table('quizes')
-            ->select(DB::raw('count(*) as count'))
-            ->where('quize_group_id', $id)
-            ->get()[0]->count;
 
-        return view('quize-group.show', ['group' => $group[0], 'count' => $count]);
+        $status = LikeService::searchLikeStatus($group[0]->group_id);
+
+        return view('quize-group.show', ['group' => $group[0]], $status);
     }
     // クイズ単体
     public function showQuize($group_id, $sort_num)
@@ -58,6 +74,7 @@ class QuizeController extends Controller
         } else {
             abort('404');
         }
+
 
         return view('quize.show', compact('quize', 'isLast'));
     }

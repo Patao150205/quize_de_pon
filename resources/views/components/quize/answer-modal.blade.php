@@ -33,13 +33,13 @@ $nextSortNum = $sortNum + 1;
         </div>
         @if ($isLast !== 'true')
             <button
-                onclick="location.href='route('quize_group.showQuize', ['group' => $quize->group_id, 'quize' => $nextSortNum])'"
+                onclick="location.href='{{ route('quize_group.showQuize', ['group' => $quize->quize_group_id, 'quize' => $nextSortNum]) }}'"
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6"
                 style="background-image: linear-gradient(to right, #4facfe 0%,#4ad5ff 100%)">
                 次へ
             </button>
         @else
-            <button onclick="location.href=''"
+            <button onclick="location.href='{{ route('quize_group.result', ['group' => $quize->quize_group_id]) }}'"
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6"
                 style="background-image: linear-gradient(to right, #4facfe 0%,#4ad5ff 100%)">
                 結果発表

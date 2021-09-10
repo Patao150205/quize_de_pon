@@ -32,6 +32,7 @@ Route::name('like')->group(function () {
 
 Route::name('quize_group.')->group(function () {
     Route::get('/quize_group/{group}', [QuizeController::class, 'show'])->name('show');
+    Route::get('/quize_group/{group}/result', [QuizeController::class, 'result'])->name('result');
     Route::get('/quize_group/{group}/{quize}', [QuizeController::class, 'showQuize'])->name('showQuize');
 });
 

@@ -12,7 +12,6 @@ class QuizeQroup extends Model
     protected $fillable = [
         'title',
         'information',
-        'good_count',
         'category_id',
     ];
 }
