@@ -57,7 +57,7 @@ class QuizeController extends Controller
         }
 
         $status = LikeService::searchLikeStatus($group[0]->group_id);
-
+        // dd($group[0]->user_id);
         return view('quize-group.show', ['group' => $group[0]], $status);
     }
     // クイズ単体

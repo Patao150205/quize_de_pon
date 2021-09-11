@@ -5,7 +5,7 @@
                 <div class="p-6 mx-auto bg-white border-b border-gray-200 text-center">
                     <h1 class="text-4xl font-bold mb-4">{{ $group->title }}</h1>
                     <p class="mb-8">製作者: <a class="underline hover:text-sky-500"
-                            href="{{ route('user.show', ['user' => $userId]) }}">{{ $group->username }}</a>
+                            href="{{ route('user.show', ['user' => $group->user_id]) }}">{{ $group->username }}</a>
                     </p>
                     <p class="mb-8">問題数: {{ $quizeQuantity }}</p>
                     <div class="relative max-w-md mx-auto">
@@ -18,7 +18,7 @@
                             いいね
                         </label>
                         <p id="good-btn" class="mb-8 mt-2">
-                            <span @if (is_null($userId))
+                            <span @if (is_null(Auth::id()))
                                 onclick="location.href='{{ route('login') }}'"
                                 @endif
                                 id="heart" data-control="0" onclick="toggleLike(this)"
@@ -32,7 +32,7 @@
                                 <button id="favorite-btn" data-control="1" onclick="toggleLike(this)"
                                     class="bg-gray-200 mb-8 border border-sky-400 py-2 px-4">お気に入りを解除</button>
                             @else
-                                <button @if (is_null($userId))
+                                <button @if (is_null(Auth::id()))
                                     onclick="location.href='{{ route('login') }}'"
                             @endif
                             id="favorite-btn" data-control="1" onclick="toggleLike(this)"
@@ -55,7 +55,7 @@
         let toggleLike;
         let handleLike;
         const group_id = {{ $group->group_id }};
-        const user_id = {{ $group->user_id }};
+        const user_id = {{ Auth::id() }};
     </script>
     <script src="{{ asset('js/like.js') }}"></script>
 </x-app-layout>
