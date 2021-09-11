@@ -17,7 +17,7 @@
                             @foreach ($quize_groups as $group)
                                 <tr class="py-2">
                                     <td class="border hover:text-sky-500">
-                                        <a href="#">
+                                        <a href="{{ route('user.show', ['user' => $group->user_id]) }}">
                                             {{ $group->name }}
                                         </a>
                                     </td>

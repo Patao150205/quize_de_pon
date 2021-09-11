@@ -19,6 +19,7 @@ class CreateQuizeGroupsTable extends Migration
             $table->text('information');
             $table->foreignId('user_id')->constrained()->nullable();
             $table->foreignId('category_id')->constrained();
+            $table->index(['category_id', 'user_id']);
             $table->timestamps();
         });
     }

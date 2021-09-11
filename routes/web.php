@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\QuizeController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -10,8 +11,9 @@ Route::get('/', function () {
 })->name('welcome');
 
 Route::name('user.')->group(function () {
-    // Route::get('/user/{show}', [])
-    Route::get('/user/{show}', [UserContrller::class, 'show'])->name('show');
+    Route::get('/user/edit', [UserController::class, 'edit'])->name('edit');
+    Route::get('/user/{user}', [UserController::class, 'show'])->name('show');
+    Route::post('/user/update', [UserController::class, 'update'])->name('update');
 });
 
 Route::name('category.')->group(function () {

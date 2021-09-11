@@ -18,7 +18,7 @@
                                 @foreach ($favorites as $favorite)
                                     <tr class="py-2">
                                         <td class="border hover:text-sky-500">
-                                            <a href="#">
+                                            <a href="{{ route('user.show', ['user' => $favorite->user_id]) }}">
                                                 {{ $favorite->name }}
                                             </a>
                                         </td>

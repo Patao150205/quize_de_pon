@@ -13,7 +13,7 @@ class LikeController extends Controller
     public function favoriteIndex()
     {
         $favorites = DB::table('favorites')
-            ->select(DB::raw('users.id, quize_groups.id as quize_group_id ,title, users.name, name_jp, categories.name as category_name'))
+            ->select(DB::raw('users.id as user_id, quize_groups.id as quize_group_id ,title, users.name, name_jp, categories.name as category_name'))
             ->join('quize_groups', 'quize_groups.id', '=', 'favorites.quize_group_id')
             ->join('categories', 'categories.id', '=', 'quize_groups.category_id')
             ->join('users', 'users.id', '=', 'favorites.user_id')

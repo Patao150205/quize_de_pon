@@ -4,7 +4,9 @@
             <div class="max-w-5xl w-full mx-auto bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 mx-auto bg-white border-b border-gray-200 text-center">
                     <h1 class="text-4xl font-bold mb-4">{{ $group->title }}</h1>
-                    <p class="mb-8">製作者: {{ $group->username }}</p>
+                    <p class="mb-8">製作者: <a class="underline hover:text-sky-500"
+                            href="{{ route('user.show', ['user' => $userId]) }}">{{ $group->username }}</a>
+                    </p>
                     <p class="mb-8">問題数: {{ $quizeQuantity }}</p>
                     <div class="relative max-w-md mx-auto">
                         <label style="left: 10.5rem" class="py-1 px-2 -top-4 bg-white absolute" for="info">
