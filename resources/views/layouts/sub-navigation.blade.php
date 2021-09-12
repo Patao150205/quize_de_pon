@@ -7,7 +7,7 @@
         </div>
         <div class="hidden  sm:-my-px flex-grow sm:block">
             <x-nav-link :href="route('category.index')"
-                :active="request()->routeIs(['category.index', 'category.show', 'quize_group.showQuize', 'quize_group.show', 'user.show'])">
+                :active="request()->routeIs(['category.index', 'category.show', 'quize_group.show', 'quize_group.show', 'user.show'])">
                 クイズ一覧
             </x-nav-link>
         </div>
@@ -17,7 +17,7 @@
             </x-nav-link>
         </div>
         <div class="hidden  sm:-my-px flex-grow sm:block">
-            <x-nav-link :href="route('quize_group.create')" :active="request()->routeIs('quize_group.create')">
+            <x-nav-link :href="route('quize_group.menu')" :active="request()->routeIs('quize_group.menu')">
                 クイズの作成
             </x-nav-link>
         </div>

@@ -18,18 +18,21 @@ class QuizeGroupSeeder extends Seeder
             [
                 'title' => 'ためにならない知識問題',
                 'information' => 'くだらない知っても役に立たない問題たち、誰得だよ笑',
+                'has_content' => 0,
                 'user_id' => 1,
                 'category_id' => 4,
             ],
             [
                 'title' => 'ワンピース',
                 'information' => '人気アニメワンピースの問題',
+                'has_content' => 1,
                 'user_id' => 1,
                 'category_id' => 1,
             ],
             [
                 'title' => '江戸の歴史',
                 'information' => '江戸時代の歴史問題です。',
+                'has_content' => 0,
                 'user_id' => 1,
                 'category_id' => 5,
             ],

@@ -1,6 +1,11 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
-    <div class="bg-sky-200 px-4 sm:px-6 lg:px-8">
+    <div
+        class="@if (request()->routeIs(['quize_group.menu']))
+        bg-yellow-200
+        @else
+        bg-sky-200
+    @endif px-4 sm:px-6 lg:px-8">
         <div class="max-w-7xl mx-auto">
             <div class="flex  justify-between h-16">
                 <div class="flex">
