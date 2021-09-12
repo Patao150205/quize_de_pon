@@ -7,12 +7,12 @@
                     <div class="flex flex-col-reverse md:flex-row justify-between">
                         <button onclick="addAccordion()"
                             class="border text-yellow-400 border-yellow-400 px-8 py-2 my-2 rounded-md hover:border-yellow-500 hover:text-yellow-500 cursor-pointer transition duration-500">問題を減らす</button>
-                        <button
+                        <button onclick="addAccordion()" id="add_btn"
                             class="bg-yellow-400 px-8 py-2 my-2 rounded-md hover:bg-yellow-500 cursor-pointer transition duration-500">問題を追加する</button>
                     </div>
                     <form class="my-8 mx-auto" method="POST" action="{{ route('quize_group.store') }}">
                         @csrf
-                        <ul id="list">
+                        <ul id="list" class="shadow-md">
                             <x-quize.accordion></x-quize.accordion>
                         </ul>
                         <button type="submit"

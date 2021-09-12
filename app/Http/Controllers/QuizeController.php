@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\QuizeGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -16,8 +17,14 @@ class QuizeController extends Controller
     {
         //
     }
-    public function create()
+    public function create($quize_group_id)
     {
+        $group = QuizeGroup::find($quize_group_id, ['title', 'has_content']);
+
+        if ($group->has_content != 0) {
+            return redirect()->route('quize_group.menu');
+        }
+
         return view('quize.create');
     }
 

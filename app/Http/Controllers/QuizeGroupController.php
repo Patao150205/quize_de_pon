@@ -51,7 +51,7 @@ class QuizeGroupController extends Controller
 
         $id = $data->id;
 
-        redirect()->route('quize.create');
+        redirect()->route('quize.create', ['quize' => $id]);
     }
     // クイズグループ
     public function show($id)
