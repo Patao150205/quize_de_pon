@@ -39,7 +39,7 @@
                             class="mb-8 border border-sky-400 py-2 px-4">お気に入りに追加</button>
                             @endif
                             <button
-                                onclick="location.href='{{ route('quize_group.show', ['group' => $group->group_id, 'quize' => 1]) }}'"
+                                onclick="location.href='{{ route('quize.show', ['group' => $group->group_id, 'quize' => 1]) }}'"
                                 class=" py-2 px-4 text-white border border-red-400 bg-red-400 focus:border-red-500 focus:bg-red-500 animate-pulse">クイズを解く</button>
 
                             <p class="m-4 text-red-500">プレイ中は、音がなるから注意してね！</p>

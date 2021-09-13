@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\QuizeGroup;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class QuizeController extends Controller
@@ -19,24 +20,24 @@ class QuizeController extends Controller
     }
     public function create($quize_group_id)
     {
-        $group = QuizeGroup::find($quize_group_id, ['title', 'has_content']);
+        $group = QuizeGroup::where('user_id', Auth::id())
+            ->where('id', $quize_group_id)
+            ->get();
 
-        if ($group->has_content != 0) {
+        if ($group->isEmpty()) {
+            abort(404);
+        }
+
+        if ($group[0]->has_content != 0) {
             return redirect()->route('quize_group.menu');
         }
 
-        return view('quize.create');
+        return view('quize.create', ['group' => $group[0]]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        dd($request);
     }
     // クイズ単体
     public function show($group_id, $sort_num)

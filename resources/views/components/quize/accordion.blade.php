@@ -58,53 +58,13 @@
 
 </style>
 
-
-<li class="tab w-full overflow-hidden border-t">
-    <input class="absolute opacity-0" id="tab-single-1" type="radio" name="tabs">
-    <label class="block p-5 leading-normal cursor-pointer" for="tab-single-1">第1問</label>
-    <div class="tab-content overflow-hidden border-l-2 bg-gray-100 border-yellow-500 leading-normal">
-        <div class="p-5">
-            <div class="my-2">
-                <label class="block" for="description">問題</label>
-                <textarea name="question1" placeholder="問題文"
-                    class="w-full focus:outline-none border focus:border-yellow-300" id="question1" name="question1"
-                    type="text"></textarea>
-            </div>
-            <div class="my-2">
-                <label class="block" for="1_choice1">選択肢1</label>
-                <input required name="correct_choice1" value="1_choice1" type="radio" />
-                <input required class="w-11/12 focus:outline-none border focus:border-yellow-300" placeholder="選択肢1"
-                    id="1_choice1" name="1_choice1" type="text" />
-            </div>
-            <div class="my-2">
-                <label class="block" for="1_choice1">選択肢2</label>
-                <input required name="correct_choice1" value="1_choice2" type="radio" />
-                <input required class="w-11/12 focus:outline-none border focus:border-yellow-300" placeholder="選択肢2"
-                    id="1_choice2" name="1_choice1" type="text" />
-            </div>
-            <div class="my-2">
-                <label class="block" for="1_choice1">選択肢3</label>
-                <input required name="correct_choice1" value="1_choice2" type="radio" />
-                <input required class="w-11/12 focus:outline-none border focus:border-yellow-300" placeholder="選択肢3"
-                    id="1_choice3" name="1_choice1" type="text" />
-            </div>
-            <div class="my-2">
-                <label class="block" for="1_choice1">選択肢4</label>
-                <input required name="correct_choice1" value="1_choice2" type="radio" />
-                <input required class="w-11/12 focus:outline-none border focus:border-yellow-300" placeholder="選択肢4"
-                    id="1_choice4" name="1_choice1" type="text" />
-            </div>
-        </div>
-</li>
-
-
 <script>
     const list = document.getElementById('list');
     const addButton = document.getElementById('add_btn');
 
-    var myRadios = document.getElementsByName('tabs');
-    var setCheck;
-    var x = 0;
+    const myRadios = document.getElementsByName('tabs');
+    let setCheck;
+    let x = 0;
 
     function addToggleEvent() {
         for (x = 0; x < myRadios.length; x++) {
@@ -122,7 +82,6 @@
     addToggleEvent();
 
     const observer = new MutationObserver(function() {
-        console.log('イベント');
         addToggleEvent();
     });
 

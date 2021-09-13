@@ -41,7 +41,6 @@ class QuizeGroupController extends Controller
     }
     public function store(Request $request)
     {
-        dd($request);
         $data = QuizeGroup::create([
             'title' => $request->title,
             'information' => $request->information,

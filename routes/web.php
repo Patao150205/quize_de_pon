@@ -38,6 +38,7 @@ Route::name('quize_group.')->group(function () {
 
 Route::name('quize.')->group(function () {
     Route::middleware('auth')->get('/quize/create/{quize_group}', [QuizeController::class, 'create'])->name('create');
+    Route::middleware('auth')->post('/quize/store', [QuizeController::class, 'store'])->name('store');
     Route::middleware('auth')->get('/quize/edit/{quize_group}', [QuizeController::class, 'edit'])->name('edit');
     Route::get('/quize/{group}/{quize}', [QuizeController::class, 'show'])->name('show');
 });
