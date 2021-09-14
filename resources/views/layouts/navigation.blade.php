@@ -1,7 +1,7 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div
-        class="@if (request()->routeIs(['quize_group.menu']))
+        class="@if (request()->routeIs(['quize_group.menu', 'quize_group.create', 'quize_group.edit', 'quize_group.show', 'quize_group.edit_list', 'quize.create', 'quize.edit']))
         bg-yellow-200
         @else
         bg-sky-200

@@ -6,12 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateQuizesTable extends Migration
 {
-
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('quizes', function (Blueprint $table) {
@@ -26,17 +20,11 @@ class CreateQuizesTable extends Migration
             $table->unsignedTinyInteger('sort_num');
             $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('quize_group_id')->index('group')->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('question_image_id')->nullable()->constrained('images');
-            $table->foreignId('explanation_image_id')->nullable()->constrained('images');
+            // $table->foreignId('question_image_id')->nullable()->constrained('images');
+            // $table->foreignId('explanation_image_id')->nullable()->constrained('images');
             $table->timestamps();
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('quizes');

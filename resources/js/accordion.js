@@ -134,6 +134,7 @@ handleSubmit = () => {
             });
     } else {
         validation.innerHTML = validationHTML;
+        window.scroll(0, 0);
         validationHTML = '';
         canSend = true;
     }

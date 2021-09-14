@@ -9,7 +9,7 @@
                             <tr>
                                 <th class="p-2">タイトル</th>
                                 <th>カテゴリ</th>
-                                <th>いいね</th>
+                                <th>削除</th>
                             </tr>
                         </thead>
                         <tbody>

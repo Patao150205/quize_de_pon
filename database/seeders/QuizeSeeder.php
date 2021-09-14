@@ -37,7 +37,7 @@ class QuizeSeeder extends Seeder
                 'explanation' => 'ルフィーはフーシャ村出身です！',
                 'user_id' => 1,
                 'quize_group_id' => 2,
-                'sort_num' => 1,
+                'sort_num' => 2,
             ],
         ]);
     }
