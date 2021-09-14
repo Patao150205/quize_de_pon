@@ -74,7 +74,6 @@ class QuizeGroupController extends Controller
 
         return view('quize-group.show', ['group' => $group[0]], $status);
     }
-
     public function editList()
     {
         $quize_groups = DB::table('quize_groups')
@@ -93,28 +92,32 @@ class QuizeGroupController extends Controller
     }
     public function edit($id)
     {
-    }
+        $group = DB::table('quize_groups')
+            ->where('user_id', Auth::id())
+            ->where('id', $id)
+            ->get();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+        if ($group->isEmpty()) {
+            abort('404');
+        }
+
+        $categories =  Category::all(['id', 'name_jp']);
+
+        return view('quize-group.edit', ['group' => $group[0]], compact('categories'));
+    }
     public function update(Request $request, $id)
     {
-        //
-    }
+        QuizeGroup::where('id', $id)
+            ->where('user_id', Auth::id())
+            ->update([
+                'title' => $request->title,
+                'information' => $request->information,
+                'category_id' => $request->category_id
+            ]);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+        return redirect()->route('quize.edit', ['quize_group' =>  $id]);
+    }
     public function destroy($id)
     {
-        //
     }
 }

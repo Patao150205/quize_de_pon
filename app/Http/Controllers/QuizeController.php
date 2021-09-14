@@ -87,6 +87,8 @@ class QuizeController extends Controller
     }
     public function edit($id)
     {
+
+        return view('quize.edit');
     }
 
     public function update(Request $request, $id)
