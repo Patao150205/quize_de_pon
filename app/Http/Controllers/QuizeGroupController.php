@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\QuizeGroup;
 use App\Services\LikeService;
 use Illuminate\Http\Request;
@@ -37,11 +38,12 @@ class QuizeGroupController extends Controller
     }
     public function create()
     {
-        return view('quize-group.create');
+        $categories =  Category::all(['id', 'name_jp']);
+
+        return view('quize-group.create', compact('categories'));
     }
     public function store(Request $request)
     {
-        dd($request);
         $data = QuizeGroup::create([
             'title' => $request->title,
             'information' => $request->information,
@@ -51,7 +53,7 @@ class QuizeGroupController extends Controller
 
         $id = $data->id;
 
-        redirect()->route('quize.create', ['quize' => $id]);
+        return redirect()->route('quize.create', ['quize_group' => $id]);
     }
     // クイズグループ
     public function show($id)

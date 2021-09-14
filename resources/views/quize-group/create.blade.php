@@ -8,20 +8,24 @@
                     <form class="my-8 mx-auto max-w-md" method="POST" action="{{ route('quize_group.store') }}">
                         @csrf
                         <div class="my-8">
-                            <label class="block" for="category">カテゴリ</label>
-                            <select name="category_id">
+                            <label class="block" for="category">カテゴリ<span
+                                    class="text-red-500 ml-1">*</span></label>
+                            <select required name="category_id">
+                                <option value="" hidden>選択してください</option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}">{{ $category->name_jp }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="my-8">
-                            <label class="block" for="title">タイトル</label>
+                            <label class="block" for="title">タイトル<span
+                                    class="text-red-500 ml-1">*</span></label>
                             <input required class="w-full focus:outline-none border focus:border-sky-300"
                                 placeholder="タイトル" id="title" name="title" type="text">
                         </div>
                         <div class="my-8">
-                            <label class="block" for="information">クイズ集の説明</label>
+                            <label class="block" for="information">クイズ集の説明<span
+                                    class="text-red-500 ml-1">*</span></label>
                             <textarea required name="information" placeholder="クイズ集の説明" rows="5"
                                 class="w-full focus:outline-none border focus:border-sky-300" id="information"
                                 name="information" type="text"></textarea>
@@ -36,5 +40,6 @@
         </div>
     </div>
     <script>
+
     </script>
 </x-app-layout>

@@ -11,6 +11,7 @@ class QuizeGroup extends Model
 
     protected $fillable = [
         'title',
+        'user_id',
         'information',
         'category_id',
     ];
