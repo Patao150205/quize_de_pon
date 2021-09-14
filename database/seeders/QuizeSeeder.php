@@ -21,7 +21,7 @@ class QuizeSeeder extends Seeder
                 'choice2' => '千代田区',
                 'choice3' => 'ザバス',
                 'choice4' => 'フーシャ村',
-                'answer_choice' => 'choice4',
+                'correct_choice' => 'choice4',
                 'explanation' => 'ルフィーはフーシャ村出身です！',
                 'quize_group_id' => 2,
                 'sort_num' => 1,

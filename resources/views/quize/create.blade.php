@@ -26,6 +26,7 @@
         let addAccordion;
         let removeAccordion;
         let handleSubmit;
+        const quize_group_id = {{ $group->user_id }};
     </script>
     <script src="{{ asset('js/accordion.js') }}"></script>
 </x-app-layout>

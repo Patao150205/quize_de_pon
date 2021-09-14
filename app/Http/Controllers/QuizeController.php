@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Quize;
 use App\Models\QuizeGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,8 +38,39 @@ class QuizeController extends Controller
 
     public function store(Request $request)
     {
-        dd($request);
+        $json = $request->getContent();
+        $data = json_decode($json, true);
+        $array_length = count($data);
+        $group_id = $data[$array_length - 1][0];
+
+        if ($array_length === 1) {
+            dd('こっちよ1');
+            DB::transaction(function () use ($group_id) {
+                QuizeGroup::where('user_id', Auth::id())
+                    ->where('id', $group_id)
+                    ->update(['has_content' => 0]);
+                Quize::where('user_id', Auth::id())
+                    ->where('group_id', $group_id)
+                    ->delete();
+            });
+        } else {
+            array_pop($data);
+
+            DB::transaction(function () use ($group_id, $data) {
+                Quize::where('user_id', Auth::id())
+                    ->where('group_id', $group_id)
+                    ->delete();
+                QuizeGroup::where('user_id', Auth::id())
+                    ->where('id', $group_id)
+                    ->update(['has_content' => 1]);
+
+                Quize::insert($data);
+            });
+        }
+
+        dd($group_id, $data, $array_length);
     }
+
     // クイズ単体
     public function show($group_id, $sort_num)
     {

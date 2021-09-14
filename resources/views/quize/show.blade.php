@@ -34,7 +34,7 @@
             modal.classList.remove('hidden');
             const selectedChoice = e.dataset.choice;
             // 正解
-            if ('{{ $quize->answer_choice }}' === selectedChoice) {
+            if ('{{ $quize->correct_choice }}' === selectedChoice) {
                 const correcct = document.getElementById('correct');
                 correct.classList.remove('hidden');
                 correct.classList.add('flex');
@@ -53,7 +53,7 @@
                 music.play();
             }
 
-            const correctAnswer = document.getElementById('{{ $quize->answer_choice }}').innerText;
+            const correctAnswer = document.getElementById('{{ $quize->correct_choice }}').innerText;
             document.getElementById('answer').innerText = correctAnswer;
         }
     </script>
