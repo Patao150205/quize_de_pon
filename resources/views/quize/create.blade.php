@@ -11,6 +11,7 @@
                         <button onclick="addAccordion()" id="add_btn"
                             class="bg-yellow-400 px-8 py-2 my-2 rounded-md hover:bg-yellow-500 cursor-pointer transition duration-500">問題を追加する</button>
                     </div>
+                    <ul id="validation"></ul>
                     <ul id="list" class="shadow-md">
                         <x-quize.accordion></x-quize.accordion>
                     </ul>
@@ -26,7 +27,7 @@
         let addAccordion;
         let removeAccordion;
         let handleSubmit;
-        const quize_group_id = {{ $group->user_id }};
+        const quize_group_id = {{ $group->id }};
     </script>
     <script src="{{ asset('js/accordion.js') }}"></script>
 </x-app-layout>

@@ -2326,11 +2326,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 var accordionCount = 0;
+var validation = document.getElementById('validation');
 var list = document.getElementById('list');
+var canSend = true;
+var validationHTML = '';
 
 var html = function html() {
-  return "\n<li id=\"tab".concat(accordionCount, "\" class=\"w-full mx-auto\">\n<form id=\"form").concat(accordionCount, "\">\n<div class=\"tab w-full overflow-hidden border-t\">\n<input class=\"absolute opacity-0\" id=\"tab-single-").concat(accordionCount, "\" type=\"radio\" name=\"tabs\" />\n<label class=\"block p-5 leading-normal cursor-pointer\" for=\"tab-single-").concat(accordionCount, "\">\u7B2C").concat(accordionCount, "\u554F</label>\n<div class=\"tab-content overflow-hidden border-l-2 bg-gray-100 border-yellow-500 leading-normal\">\n<div class=\"p-5\">\n<div class=\"my-2\">\n<label class=\"block\" for=\"question").concat(accordionCount, "\">\u554F\u984C</label>\n<textarea required name=\"question").concat(accordionCount, "\" placeholder=\"\u554F\u984C\u6587\"\nclass=\"w-full focus:outline-none border focus:border-yellow-300\" id=\"question").concat(accordionCount, "\"\nname=\"question").concat(accordionCount, "\" type=\"text\"></textarea>\n</div>\n<div class=\"my-2\">\n<label class=\"block\" for=\"").concat(accordionCount, "_choice1\">\u9078\u629E\u80A21</label>\n<input required name=\"correct_choice").concat(accordionCount, "\" value=\"choice1\" type=\"radio\">\n<input required class=\"w-11/12 focus:outline-none border focus:border-yellow-300\"\nplaceholder=\"\u9078\u629E\u80A21\" id=\"").concat(accordionCount, "_choice1\" name=\"").concat(accordionCount, "_choice1\" type=\"text\">\n</div>\n<div class=\"my-2\">\n<label class=\"block\" for=\"").concat(accordionCount, "_choice2\">\u9078\u629E\u80A22</label>\n<input required name=\"correct_choice").concat(accordionCount, "\" value=\"choice2\" type=\"radio\">\n<input required class=\"w-11/12 focus:outline-none border focus:border-yellow-300\"\nplaceholder=\"\u9078\u629E\u80A22\" id=\"").concat(accordionCount, "_choice2\" name=\"").concat(accordionCount, "_choice2\" type=\"text\">\n</div>\n<div class=\"my-2\">\n<label class=\"block\" for=\"").concat(accordionCount, "_choice3\">\u9078\u629E\u80A23</label>\n<input required name=\"correct_choice").concat(accordionCount, "\" value=\"choice3\" type=\"radio\">\n<input required class=\"w-11/12 focus:outline-none border focus:border-yellow-300\"\nplaceholder=\"\u9078\u629E\u80A23\" id=\"").concat(accordionCount, "_choice3\" name=\"").concat(accordionCount, "_choice3\" type=\"text\">\n</div>\n<div class=\"my-2\">\n<label class=\"block\" for=\"").concat(accordionCount, "_choice4\">\u9078\u629E\u80A24</label>\n<input required name=\"correct_choice").concat(accordionCount, "\" value=\"choice4\" type=\"radio\">\n<input required class=\"w-11/12 focus:outline-none border focus:border-yellow-300\"\nplaceholder=\"\u9078\u629E\u80A24\" id=\"").concat(accordionCount, "_choice4\" name=\"").concat(accordionCount, "_choice4\" type=\"text\">\n</div>\n<div class=\"my-2\">\n<label class=\"block\" for=\"explanation").concat(accordionCount, "\">\u7B54\u3048\u306E\u8AAC\u660E</label>\n<textarea required name=\"explanation").concat(accordionCount, "\" placeholder=\"\u7B54\u3048\u306E\u8AAC\u660E\"\nclass=\"w-full focus:outline-none border focus:border-yellow-300\" id=\"explanation").concat(accordionCount, "\"\nname=\"explanation").concat(accordionCount, "\" type=\"text\"></textarea>\n</div>\n</div>\n</div>\n</div>\n</form>\n</li>\n");
+  return "\n<li id=\"tab".concat(accordionCount, "\" class=\"w-full mx-auto\">\n<form id=\"form").concat(accordionCount, "\">\n<div class=\"tab w-full overflow-hidden border-t\">\n<input class=\"absolute opacity-0\" id=\"tab-single-").concat(accordionCount, "\" type=\"radio\" name=\"tabs\" />\n<label class=\"block p-5 leading-normal cursor-pointer\" for=\"tab-single-").concat(accordionCount, "\">\u7B2C").concat(accordionCount, "\u554F</label>\n<div class=\"tab-content overflow-hidden border-l-2 bg-gray-100 border-yellow-500 leading-normal\">\n<div class=\"p-5\">\n<div class=\"my-2\">\n<label class=\"block\" for=\"question").concat(accordionCount, "\">\u554F\u984C<span class=\"text-red-500 ml-1\">*</span></label>\n<textarea required name=\"question").concat(accordionCount, "\" placeholder=\"\u554F\u984C\u6587\"\nclass=\"w-full focus:outline-none border focus:border-yellow-300\" id=\"question").concat(accordionCount, "\"\nname=\"question").concat(accordionCount, "\" type=\"text\"></textarea>\n</div>\n<div class=\"my-2\">\n<label class=\"block\" for=\"").concat(accordionCount, "_choice1\">\u9078\u629E\u80A21<span class=\"text-red-500 ml-1\">*</span></label>\n<input required name=\"correct_choice").concat(accordionCount, "\" value=\"choice1\" type=\"radio\">\n<input required class=\"w-11/12 focus:outline-none border focus:border-yellow-300\"\nplaceholder=\"\u9078\u629E\u80A21\" id=\"").concat(accordionCount, "_choice1\" name=\"").concat(accordionCount, "_choice1\" type=\"text\">\n</div>\n<div class=\"my-2\">\n<label class=\"block\" for=\"").concat(accordionCount, "_choice2\">\u9078\u629E\u80A22<span class=\"text-red-500 ml-1\">*</span></label>\n<input required name=\"correct_choice").concat(accordionCount, "\" value=\"choice2\" type=\"radio\">\n<input required class=\"w-11/12 focus:outline-none border focus:border-yellow-300\"\nplaceholder=\"\u9078\u629E\u80A22\" id=\"").concat(accordionCount, "_choice2\" name=\"").concat(accordionCount, "_choice2\" type=\"text\">\n</div>\n<div class=\"my-2\">\n<label class=\"block\" for=\"").concat(accordionCount, "_choice3\">\u9078\u629E\u80A23<span class=\"text-red-500 ml-1\">*</span></label>\n<input required name=\"correct_choice").concat(accordionCount, "\" value=\"choice3\" type=\"radio\">\n<input required class=\"w-11/12 focus:outline-none border focus:border-yellow-300\"\nplaceholder=\"\u9078\u629E\u80A23\" id=\"").concat(accordionCount, "_choice3\" name=\"").concat(accordionCount, "_choice3\" type=\"text\">\n</div>\n<div class=\"my-2\">\n<label class=\"block\" for=\"").concat(accordionCount, "_choice4\">\u9078\u629E\u80A24<span class=\"text-red-500 ml-1\">*</span></label>\n<input required name=\"correct_choice").concat(accordionCount, "\" value=\"choice4\" type=\"radio\">\n<input required class=\"w-11/12 focus:outline-none border focus:border-yellow-300\"\nplaceholder=\"\u9078\u629E\u80A24\" id=\"").concat(accordionCount, "_choice4\" name=\"").concat(accordionCount, "_choice4\" type=\"text\">\n</div>\n<div class=\"my-2\">\n<label class=\"block\" for=\"explanation").concat(accordionCount, "\">\u7B54\u3048\u306E\u8AAC\u660E</label>\n<textarea required name=\"explanation").concat(accordionCount, "\" placeholder=\"\u7B54\u3048\u306E\u8AAC\u660E\"\nclass=\"w-full focus:outline-none border focus:border-yellow-300\" id=\"explanation").concat(accordionCount, "\"\nname=\"explanation").concat(accordionCount, "\" type=\"text\"></textarea>\n</div>\n</div>\n</div>\n</div>\n</form>\n</li>\n");
 };
+
+function addValidation(question_mum, item) {
+  var html = "<p class=\"m-2 text-red-500\">\u7B2C".concat(question_mum, "\u554F\u306E\u5FC5\u9808\u9805\u76EE\u3001").concat(item, "\u304C\u672A\u5165\u529B\u3067\u3059\u3002</p>");
+  validationHTML += html;
+  canSend = false;
+  return null;
+}
 
 addAccordion = function addAccordion() {
   accordionCount += 1;
@@ -2345,8 +2355,6 @@ removeAccordion = function removeAccordion() {
   accordionCount -= 1;
 };
 
-var data = [];
-
 handleSubmit = function handleSubmit() {
   // 問題1問
   var data = [];
@@ -2356,17 +2364,25 @@ handleSubmit = function handleSubmit() {
 
     var form = document.getElementById('form' + i); // フォームの項目
 
-    data.push((_data$push = {}, _defineProperty(_data$push, 'question', form.elements['question' + i].value), _defineProperty(_data$push, 'choice1', form.elements[i + '_choice1'].value), _defineProperty(_data$push, 'choice2', form.elements[i + '_choice2'].value), _defineProperty(_data$push, 'choice3', form.elements[i + '_choice3'].value), _defineProperty(_data$push, 'choice4', form.elements[i + '_choice4'].value), _defineProperty(_data$push, 'explanation', form.elements['explanation' + i].value), _defineProperty(_data$push, 'correct_choice', form.elements['correct_choice' + i].value), _defineProperty(_data$push, 'quize_group_id', quize_group_id), _defineProperty(_data$push, 'sort_num', i), _data$push));
+    data.push((_data$push = {}, _defineProperty(_data$push, 'question', form.elements['question' + i].value ? form.elements['question' + i].value : addValidation(i, '問題')), _defineProperty(_data$push, 'choice1', form.elements[i + '_choice1'].value ? form.elements[i + '_choice1'].value : addValidation(i, '選択肢1')), _defineProperty(_data$push, 'choice2', form.elements[i + '_choice2'].value ? form.elements[i + '_choice2'].value : addValidation(i, '選択肢2')), _defineProperty(_data$push, 'choice3', form.elements[i + '_choice3'].value ? form.elements[i + '_choice3'].value : addValidation(i, '選択肢3')), _defineProperty(_data$push, 'choice4', form.elements[i + '_choice4'].value ? form.elements[i + '_choice4'].value : addValidation(i, '選択肢4')), _defineProperty(_data$push, 'explanation', form.elements['explanation' + i].value ? form.elements['explanation' + i].value : null), _defineProperty(_data$push, 'correct_choice', form.elements['correct_choice' + i].value ? form.elements['correct_choice' + i].value : addValidation(i, '正解の問題選択')), _defineProperty(_data$push, 'quize_group_id', quize_group_id), _defineProperty(_data$push, 'sort_num', i), _data$push));
   }
 
   data.push([quize_group_id]);
   console.log(data);
-  axios__WEBPACK_IMPORTED_MODULE_0___default().post('/quize/store', data).then(function (res) {
-    console.log(res.data);
-    alert('問題の送信に成功しました。');
-  })["catch"](function (err) {
-    alert('通信エラーが発生しました。');
-  });
+
+  if (canSend) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().post('/quize/store', data).then(function (res) {
+      var group_id = res.data;
+      alert('問題の送信に成功しました。');
+      location.href = "/quize_group/".concat(group_id);
+    })["catch"](function (err) {
+      alert('通信エラーが発生しました。');
+    });
+  } else {
+    validation.innerHTML = validationHTML;
+    validationHTML = '';
+    canSend = true;
+  }
 };
 })();
 

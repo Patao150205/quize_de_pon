@@ -1,7 +1,10 @@
 import axios from 'axios';
 
 let accordionCount = 0;
+const validation = document.getElementById('validation');
 const list = document.getElementById('list');
+let canSend = true;
+let validationHTML = '';
 
 const html = () => `
 <li id="tab${accordionCount}" class="w-full mx-auto">
@@ -12,31 +15,31 @@ const html = () => `
 <div class="tab-content overflow-hidden border-l-2 bg-gray-100 border-yellow-500 leading-normal">
 <div class="p-5">
 <div class="my-2">
-<label class="block" for="question${accordionCount}">問題</label>
+<label class="block" for="question${accordionCount}">問題<span class="text-red-500 ml-1">*</span></label>
 <textarea required name="question${accordionCount}" placeholder="問題文"
 class="w-full focus:outline-none border focus:border-yellow-300" id="question${accordionCount}"
 name="question${accordionCount}" type="text"></textarea>
 </div>
 <div class="my-2">
-<label class="block" for="${accordionCount}_choice1">選択肢1</label>
+<label class="block" for="${accordionCount}_choice1">選択肢1<span class="text-red-500 ml-1">*</span></label>
 <input required name="correct_choice${accordionCount}" value="choice1" type="radio">
 <input required class="w-11/12 focus:outline-none border focus:border-yellow-300"
 placeholder="選択肢1" id="${accordionCount}_choice1" name="${accordionCount}_choice1" type="text">
 </div>
 <div class="my-2">
-<label class="block" for="${accordionCount}_choice2">選択肢2</label>
+<label class="block" for="${accordionCount}_choice2">選択肢2<span class="text-red-500 ml-1">*</span></label>
 <input required name="correct_choice${accordionCount}" value="choice2" type="radio">
 <input required class="w-11/12 focus:outline-none border focus:border-yellow-300"
 placeholder="選択肢2" id="${accordionCount}_choice2" name="${accordionCount}_choice2" type="text">
 </div>
 <div class="my-2">
-<label class="block" for="${accordionCount}_choice3">選択肢3</label>
+<label class="block" for="${accordionCount}_choice3">選択肢3<span class="text-red-500 ml-1">*</span></label>
 <input required name="correct_choice${accordionCount}" value="choice3" type="radio">
 <input required class="w-11/12 focus:outline-none border focus:border-yellow-300"
 placeholder="選択肢3" id="${accordionCount}_choice3" name="${accordionCount}_choice3" type="text">
 </div>
 <div class="my-2">
-<label class="block" for="${accordionCount}_choice4">選択肢4</label>
+<label class="block" for="${accordionCount}_choice4">選択肢4<span class="text-red-500 ml-1">*</span></label>
 <input required name="correct_choice${accordionCount}" value="choice4" type="radio">
 <input required class="w-11/12 focus:outline-none border focus:border-yellow-300"
 placeholder="選択肢4" id="${accordionCount}_choice4" name="${accordionCount}_choice4" type="text">
@@ -54,6 +57,13 @@ name="explanation${accordionCount}" type="text"></textarea>
 </li>
 `;
 
+function addValidation(question_mum, item) {
+    const html = `<p class="m-2 text-red-500">第${question_mum}問の必須項目、${item}が未入力です。</p>`;
+    validationHTML += html;
+    canSend = false;
+    return null;
+}
+
 addAccordion = () => {
     accordionCount += 1;
     list.insertAdjacentHTML('beforeend', html());
@@ -67,8 +77,6 @@ removeAccordion = () => {
     accordionCount -= 1;
 };
 
-let data = [];
-
 handleSubmit = () => {
     // 問題1問
     const data = [];
@@ -77,13 +85,27 @@ handleSubmit = () => {
         const form = document.getElementById('form' + i);
         // フォームの項目
         data.push({
-            ['question']: form.elements['question' + i].value,
-            ['choice1']: form.elements[i + '_choice1'].value,
-            ['choice2']: form.elements[i + '_choice2'].value,
-            ['choice3']: form.elements[i + '_choice3'].value,
-            ['choice4']: form.elements[i + '_choice4'].value,
-            ['explanation']: form.elements['explanation' + i].value,
-            ['correct_choice']: form.elements['correct_choice' + i].value,
+            ['question']: form.elements['question' + i].value
+                ? form.elements['question' + i].value
+                : addValidation(i, '問題'),
+            ['choice1']: form.elements[i + '_choice1'].value
+                ? form.elements[i + '_choice1'].value
+                : addValidation(i, '選択肢1'),
+            ['choice2']: form.elements[i + '_choice2'].value
+                ? form.elements[i + '_choice2'].value
+                : addValidation(i, '選択肢2'),
+            ['choice3']: form.elements[i + '_choice3'].value
+                ? form.elements[i + '_choice3'].value
+                : addValidation(i, '選択肢3'),
+            ['choice4']: form.elements[i + '_choice4'].value
+                ? form.elements[i + '_choice4'].value
+                : addValidation(i, '選択肢4'),
+            ['explanation']: form.elements['explanation' + i].value
+                ? form.elements['explanation' + i].value
+                : null,
+            ['correct_choice']: form.elements['correct_choice' + i].value
+                ? form.elements['correct_choice' + i].value
+                : addValidation(i, '正解の問題選択'),
             ['quize_group_id']: quize_group_id,
             ['sort_num']: i,
         });
@@ -93,13 +115,20 @@ handleSubmit = () => {
 
     console.log(data);
 
-    axios
-        .post('/quize/store', data)
-        .then((res) => {
-            console.log(res.data);
-            alert('問題の送信に成功しました。');
-        })
-        .catch((err) => {
-            alert('通信エラーが発生しました。');
-        });
+    if (canSend) {
+        axios
+            .post('/quize/store', data)
+            .then((res) => {
+                const group_id = res.data;
+                alert('問題の送信に成功しました。');
+                location.href = `/quize_group/${group_id}`;
+            })
+            .catch((err) => {
+                alert('通信エラーが発生しました。');
+            });
+    } else {
+        validation.innerHTML = validationHTML;
+        validationHTML = '';
+        canSend = true;
+    }
 };

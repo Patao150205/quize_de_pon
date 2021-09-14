@@ -44,31 +44,33 @@ class QuizeController extends Controller
         $group_id = $data[$array_length - 1][0];
 
         if ($array_length === 1) {
-            dd('こっちよ1');
             DB::transaction(function () use ($group_id) {
                 QuizeGroup::where('user_id', Auth::id())
                     ->where('id', $group_id)
                     ->update(['has_content' => 0]);
-                Quize::where('user_id', Auth::id())
-                    ->where('group_id', $group_id)
+
+                Quize::join('quize_groups', 'quize_groups.id', '=', 'quizes.quize_group_id')
+                    ->where('user_id', Auth::id())
+                    ->where('quize_group_id', $group_id)
                     ->delete();
-            });
+            }, 3);
         } else {
             array_pop($data);
 
             DB::transaction(function () use ($group_id, $data) {
-                Quize::where('user_id', Auth::id())
-                    ->where('group_id', $group_id)
+                Quize::join('quize_groups', 'quize_groups.id', '=', 'quizes.quize_group_id')
+                    ->where('user_id', Auth::id())
+                    ->where('quize_group_id', $group_id)
                     ->delete();
                 QuizeGroup::where('user_id', Auth::id())
                     ->where('id', $group_id)
                     ->update(['has_content' => 1]);
 
                 Quize::insert($data);
-            });
+            }, 3);
         }
 
-        dd($group_id, $data, $array_length);
+        return $group_id;
     }
 
     // クイズ単体

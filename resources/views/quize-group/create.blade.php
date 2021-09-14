@@ -8,15 +8,23 @@
                     <form class="my-8 mx-auto max-w-md" method="POST" action="{{ route('quize_group.store') }}">
                         @csrf
                         <div class="my-8">
+                            <label class="block" for="category">カテゴリ</label>
+                            <select name="category_id">
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name_jp }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="my-8">
                             <label class="block" for="title">タイトル</label>
                             <input required class="w-full focus:outline-none border focus:border-sky-300"
                                 placeholder="タイトル" id="title" name="title" type="text">
                         </div>
                         <div class="my-8">
-                            <label class="block" for="description">クイズ集の説明</label>
-                            <textarea name="description" placeholder="クイズ集の説明" rows="5"
-                                class="w-full focus:outline-none border focus:border-sky-300" id="description"
-                                name="description" type="text"></textarea>
+                            <label class="block" for="information">クイズ集の説明</label>
+                            <textarea required name="information" placeholder="クイズ集の説明" rows="5"
+                                class="w-full focus:outline-none border focus:border-sky-300" id="information"
+                                name="information" type="text"></textarea>
                         </div>
 
                         <button type="submit"
