@@ -44,7 +44,7 @@ class QuizeController extends Controller
                     ->update(['has_content' => 0]);
 
                 Quize::join('quize_groups', 'quize_groups.id', '=', 'quizes.quize_group_id')
-                    ->where('user_id', Auth::id())
+                    ->where('quizes.user_id', Auth::id())
                     ->where('quize_group_id', $group_id)
                     ->delete();
             }, 3);
@@ -53,7 +53,7 @@ class QuizeController extends Controller
 
             DB::transaction(function () use ($group_id, $data) {
                 Quize::join('quize_groups', 'quize_groups.id', '=', 'quizes.quize_group_id')
-                    ->where('user_id', Auth::id())
+                    ->where('quizes.user_id', Auth::id())
                     ->where('quize_group_id', $group_id)
                     ->delete();
                 QuizeGroup::where('user_id', Auth::id())
@@ -64,7 +64,7 @@ class QuizeController extends Controller
             }, 3);
         }
 
-        return $group_id;
+        return response($group_id)->header('Content-Type', 'text/plain');
     }
 
     // クイズ単体
@@ -87,8 +87,16 @@ class QuizeController extends Controller
     }
     public function edit($id)
     {
+        $group = QuizeGroup::where('quize_groups.id', $id)
+            ->where('user_id', Auth::id())
+            ->first();
 
-        return view('quize.edit');
+
+        $quizzes = Quize::where('user_id', Auth::id())
+            ->where('quize_group_id', $id)
+            ->get();
+        // dd($quizzes);
+        return view('quize.edit', compact('group', 'quizzes'));
     }
 
     public function update(Request $request, $id)

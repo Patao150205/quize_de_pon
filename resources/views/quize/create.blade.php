@@ -15,7 +15,7 @@
                     <ul id="list" class="shadow-md">
                         <x-quize.accordion></x-quize.accordion>
                     </ul>
-                    <button onclick="handleSubmit()"
+                    <button id="submit_btn" onclick="handleSubmit()"
                         class="mt-8 py-2 px-4 text-white border border-red-400 bg-red-400 focus:border-red-500 focus:bg-red-500 animate-pulse">クイズが完成</button>
                     <p class="mt-4 text-red-500">※問題数が0の場合は、クイズ集は公開されません。</p>
                     <p class="mt-4 text-red-500">※再ロードすると内容が消えています。</p>
@@ -27,6 +27,9 @@
         let addAccordion;
         let removeAccordion;
         let handleSubmit;
+        let accordionCount = 0;
+        const isEdit = false;
+        const user_id = {{ Auth::id() }}
         const quize_group_id = {{ $group->id }};
     </script>
     <script src="{{ asset('js/accordion.js') }}"></script>

@@ -1,14 +1,17 @@
 import axios from 'axios';
 
-let accordionCount = 0;
+// 編集の場合は、accordionにはすでに初期値が代入されている。
+
 const validation = document.getElementById('validation');
 const list = document.getElementById('list');
+const submitBtn = document.getElementById('submit_btn');
+
 let canSend = true;
 let validationHTML = '';
 
 const html = () => `
-<li id="tab${accordionCount}" class="w-full mx-auto">
-<form id="form${accordionCount}">
+<li id="tab${accordionCount}" class="w-full mx-auto overflow-scroll">
+<form  id="form${accordionCount}">
 <div class="tab w-full overflow-hidden border-t">
 <input class="absolute opacity-0" id="tab-single-${accordionCount}" type="radio" name="tabs" />
 <label class="block p-5 leading-normal cursor-pointer" for="tab-single-${accordionCount}">第${accordionCount}問</label>
@@ -107,24 +110,27 @@ handleSubmit = () => {
                 ? form.elements['correct_choice' + i].value
                 : addValidation(i, '正解の問題選択'),
             ['quize_group_id']: quize_group_id,
+            ['user_id']: user_id,
             ['sort_num']: i,
         });
     }
 
     data.push([quize_group_id]);
 
-    console.log(data);
-
     if (canSend) {
+        const destination = isEdit ? '/quize/update' : '/quize/store';
+        submitBtn.setAttribute('disabled', true);
         axios
-            .post('/quize/store', data)
+            .post(destination, data)
             .then((res) => {
-                const group_id = res.data;
                 alert('問題の送信に成功しました。');
+                const group_id = res.data;
                 location.href = `/quize_group/${group_id}`;
             })
             .catch((err) => {
+                console.log(err.message);
                 alert('通信エラーが発生しました。');
+                submitBtn.removeAttribute('disabled');
             });
     } else {
         validation.innerHTML = validationHTML;

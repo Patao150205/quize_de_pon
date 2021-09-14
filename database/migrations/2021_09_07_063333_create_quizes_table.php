@@ -24,6 +24,7 @@ class CreateQuizesTable extends Migration
             $table->char('correct_choice', 7);
             $table->text('explanation')->nullable();
             $table->unsignedTinyInteger('sort_num');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('quize_group_id')->index('group')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('question_image_id')->nullable()->constrained('images');
             $table->foreignId('explanation_image_id')->nullable()->constrained('images');

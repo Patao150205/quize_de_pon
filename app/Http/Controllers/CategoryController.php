@@ -26,6 +26,7 @@ class CategoryController extends Controller
                         ->groupBy('quize_groups.id');
                 }])
                 ->join('users', 'users.id', '=', 'quize_groups.user_id')
+                ->where('has_content', '=', '1')
                 ->get();
         } else {
             $category = DB::table('categories')
@@ -45,6 +46,7 @@ class CategoryController extends Controller
                         ->groupBy('quize_groups.id');
                 }])
                 ->join('users', 'users.id', '=', 'quize_groups.user_id')
+                ->where('has_content', '=', '1')
                 ->where('category_id', $category->id)
                 ->get();
         }
