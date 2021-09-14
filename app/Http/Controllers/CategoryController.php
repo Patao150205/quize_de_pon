@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use Illuminate\Http\Request;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
@@ -18,18 +17,38 @@ class CategoryController extends Controller
         $category = null;
 
         if ($category_name === 'all') {
-            $quize_groups = DB::table('quize_groups')->select('quize_groups.id', 'title', 'name', 'users.id as user_id')->join('users', 'users.id', '=', 'quize_groups.user_id')->get();
+            $quize_groups = DB::table('quize_groups')
+                ->select(['quize_groups.id', 'title', 'name', 'users.id as user_id', 'goodCount' => function (QueryBuilder $query) {
+                    $query
+                        ->selectRaw('count(*)')
+                        ->from('goods')
+                        ->whereRaw('goods.quize_group_id = quize_groups.id')
+                        ->groupBy('quize_groups.id');
+                }])
+                ->join('users', 'users.id', '=', 'quize_groups.user_id')
+                ->get();
         } else {
-            $category = DB::table('categories')->select('id', 'name_jp')->where('name', '=', $category_name)->get();
+            $category = DB::table('categories')
+                ->select('id', 'name_jp')
+                ->where('name', '=', $category_name)
+                ->get();
             if ($category->isEmpty()) {
                 abort('404');
             }
             $category = $category[0];
-            $quize_groups = DB::table('quize_groups')->select('quize_groups.id', 'title', 'name', 'users.id as user_id')->join('users', 'users.id', '=', 'quize_groups.user_id')->where('category_id', $category->id)->get();
+            $quize_groups = DB::table('quize_groups')
+                ->select(['quize_groups.id', 'title', 'name', 'users.id as user_id', 'goodCount' => function (QueryBuilder $query) {
+                    $query
+                        ->selectRaw('count(*)')
+                        ->from('goods')
+                        ->whereRaw('goods.quize_group_id = quize_groups.id')
+                        ->groupBy('quize_groups.id');
+                }])
+                ->join('users', 'users.id', '=', 'quize_groups.user_id')
+                ->where('category_id', $category->id)
+                ->get();
         }
 
-        $goodCount = DB::table('goods')->select(DB::raw('count(*) as goodCount'))->get()[0]->goodCount;
-
-        return view('category.show', compact('quize_groups', 'category', 'goodCount'));
+        return view('category.show', compact('quize_groups', 'category'));
     }
 }

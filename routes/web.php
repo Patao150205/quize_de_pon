@@ -32,6 +32,9 @@ Route::name('quize_group.')->group(function () {
     Route::get('/quize_group/menu', [QuizeGroupController::class, 'menu'])->name('menu');
     Route::middleware('auth')->get('/quize_group/create', [QuizeGroupController::class, 'create'])->name('create');
     Route::middleware('auth')->post('/quize_group/store', [QuizeGroupController::class, 'store'])->name('store');
+    Route::middleware('auth')->get('/quize_group/edit_list', [QuizeGroupController::class, 'editList'])->name('edit_list');
+    Route::middleware('auth')->get('/quize_group/edit/{quize_group}', [QuizeGroupController::class, 'edit'])->name('edit');
+    Route::middleware('auth')->get('/quize_group/edit/update', [QuizeGroupController::class, 'update'])->name('update');
     Route::get('/quize_group/{group}', [QuizeGroupController::class, 'show'])->name('show');
     Route::get('/quize_group/{group}/result', [QuizeGroupController::class, 'result'])->name('result');
 });

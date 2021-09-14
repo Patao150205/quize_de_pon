@@ -35,7 +35,7 @@
                                 クイズ集＆問題の新規作成
                                 <p class="text-gray-400 text-xs"></p>
                             </li>
-                            <li
+                            <li onclick="location.href='{{ route('quize_group.edit_list') }}'"
                                 class="bg-yellow-400 font-bold text-2xl px-8 py-4 my-4 rounded-md hover:bg-yellow-500 cursor-pointer transition duration-500">
                                 クイズ集＆問題の編集
                             </li>

@@ -25,7 +25,7 @@
                                         <a href="{{ route('quize_group.show', ['group' => $group->id]) }}"
                                             class="underline hover:text-sky-500">{{ $group->title }}</a>
                                     </td>
-                                    <td class="border">{{ $goodCount }}</td>
+                                    <td class="border">{{ $group->goodCount ?? 0 }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

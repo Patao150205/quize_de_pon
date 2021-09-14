@@ -8,6 +8,7 @@ use App\Services\LikeService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 
 class QuizeGroupController extends Controller
 {
@@ -74,16 +75,24 @@ class QuizeGroupController extends Controller
         return view('quize-group.show', ['group' => $group[0]], $status);
     }
 
+    public function editList()
+    {
+        $quize_groups = DB::table('quize_groups')
+            ->select(['quize_groups.id as quize_group_id', 'title', 'name_jp', 'goodCount' => function (QueryBuilder $query) {
+                $query
+                    ->selectRaw('count(*)')
+                    ->from('goods')
+                    ->whereRaw('goods.quize_group_id = quize_groups.id')
+                    ->groupBy('quize_groups.id');
+            }])
+            ->join('categories', 'categories.id', '=', 'quize_groups.category_id')
+            ->where('user_id', Auth::id())
+            ->get();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+        return view('quize-group.edit-list', compact('quize_groups'));
+    }
     public function edit($id)
     {
-        //
     }
 
     /**
