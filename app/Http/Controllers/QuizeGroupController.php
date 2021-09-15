@@ -86,7 +86,7 @@ class QuizeGroupController extends Controller
             }])
             ->join('categories', 'categories.id', '=', 'quize_groups.category_id')
             ->where('user_id', Auth::id())
-            ->get();
+            ->paginate(10);
 
         return view('quize-group.edit-list', compact('quize_groups'));
     }

@@ -34,6 +34,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    {{ $quize_groups->links() }}
                 </div>
             </div>
         </div>

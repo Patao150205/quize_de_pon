@@ -27,7 +27,7 @@ class CategoryController extends Controller
                 }])
                 ->join('users', 'users.id', '=', 'quize_groups.user_id')
                 ->where('has_content', '=', '1')
-                ->get();
+                ->paginate(10);
         } else {
             $category = DB::table('categories')
                 ->select('id', 'name_jp')
@@ -48,7 +48,7 @@ class CategoryController extends Controller
                 ->join('users', 'users.id', '=', 'quize_groups.user_id')
                 ->where('has_content', '=', '1')
                 ->where('category_id', $category->id)
-                ->get();
+                ->paginate(10);
         }
 
         return view('category.show', compact('quize_groups', 'category'));

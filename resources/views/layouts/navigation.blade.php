@@ -1,7 +1,7 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div
-        class="@if (request()->routeIs(['quize_group.menu', 'quize_group.create', 'quize_group.edit', 'quize_group.show', 'quize_group.edit_list', 'quize.create', 'quize.edit']))
+        class="@if (request()->routeIs(['quize_group.menu', 'quize_group.create', 'quize_group.edit', 'quize_group.edit_list', 'quize.create', 'quize.edit']))
         bg-yellow-200
         @else
         bg-sky-200
@@ -39,14 +39,22 @@
 
                         <x-slot name="content">
                             <!-- Authentication -->
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-
-                                <x-dropdown-link :href="route('logout')" onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                                    {{ __('Log Out') }}
+                            @if (is_null(Auth::id()))
+                                <x-dropdown-link onclick="location.href='{{ route('login') }}'">
+                                    ログイン
                                 </x-dropdown-link>
-                            </form>
+                                <x-dropdown-link onclick="location.href='{{ route('register') }}'">
+                                    新規登録
+                                </x-dropdown-link>
+                            @else
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <x-dropdown-link :href="route('logout')" onclick="event.preventDefault();
+                                                this.closest('form').submit();">
+                                        ログアウト
+                                    </x-dropdown-link>
+                                </form>
+                            @endif
                         </x-slot>
                     </x-dropdown>
                 </div>
@@ -72,8 +80,20 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link href="/" :active="request()->routeIs('quize_group.index')">
-                {{ __('Dashboard') }}
+            <x-responsive-nav-link href="/" :active="request()->routeIs('welcome')">
+                ホーム
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('category.index') }}"
+                :active="request()->routeIs('category.index')">
+                クイズ一覧
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('like.favoriteIndex') }}"
+                :active="request()->routeIs('like.favoriteIndex')">
+                お気に入り
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('quize_group.menu') }}"
+                :active="request()->routeIs('quize_group.menu')">
+                クイズの作成
             </x-responsive-nav-link>
         </div>
 
@@ -86,14 +106,22 @@
 
             <div class="mt-3 space-y-1">
                 <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-
-                    <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                        {{ __('Log Out') }}
+                @if (is_null(Auth::id()))
+                    <x-responsive-nav-link :href="route('login')" :active="request()->routeIs('login')">
+                        ログイン
                     </x-responsive-nav-link>
-                </form>
+                    <x-responsive-nav-link :href="route('register')" :active="request()->routeIs('register')">
+                        新規登録
+                    </x-responsive-nav-link>
+                @else
+                    <form method="POST" action="route('logout')">
+                        @csrf
+                        <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault();
+                                        this.closest('form').submit();">
+                            ログアウト
+                        </x-responsive-nav-link>
+                    </form>
+                @endif
             </div>
         </div>
     </div>

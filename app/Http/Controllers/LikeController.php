@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Favorite;
 use App\Models\Good;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -18,9 +17,8 @@ class LikeController extends Controller
             ->join('categories', 'categories.id', '=', 'quize_groups.category_id')
             ->join('users', 'users.id', '=', 'quize_groups.user_id')
             ->where('favorites.user_id', Auth::id())
-            ->get();
+            ->paginate(10);
 
-        // dd($favorites);
         return view('favorite.index', compact('favorites'));
     }
     public function toggleFavorite($groupId, $user_id)

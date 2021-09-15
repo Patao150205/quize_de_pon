@@ -62,6 +62,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            {{ $favorites->links() }}
                         @else
                             <div class="flex bg-blue-200 p-4">
                                 <div class="mr-4">

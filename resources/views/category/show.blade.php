@@ -10,7 +10,6 @@
                                 <th>ユーザー</th>
                                 <th class="p-2">タイトル</th>
                                 <th>いいね</th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -30,6 +29,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    {{ $quize_groups->links() }}
                 </div>
             </div>
         </div>

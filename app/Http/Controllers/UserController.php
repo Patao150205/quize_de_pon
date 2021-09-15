@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 
 class UserController extends Controller
 {
@@ -21,12 +22,19 @@ class UserController extends Controller
             abort('404');
         }
 
-        $quizes = DB::table('quize_groups')
-            ->select()
+        $quize_groups = DB::table('quize_groups')
+            ->select(['name', 'user_id', 'name_jp', 'quize_groups.id as id', 'title', 'goodCount' => function (QueryBuilder $query) {
+                $query
+                    ->selectRaw('count(*)')
+                    ->from('goods')
+                    ->whereRaw('goods.quize_group_id = quize_groups.id')
+                    ->groupBy('quize_groups.id');
+            }])
+            ->join('categories', 'categories.id', '=', 'quize_groups.id')
             ->where('user_id', $id)
-            ->get();
+            ->paginate(10);
 
-        return view('user.show', ['user' => $user[0]], compact('quizes'));
+        return view('user.show', ['user' => $user[0]], compact('quize_groups'));
     }
     public function edit()
     {
@@ -41,7 +49,6 @@ class UserController extends Controller
 
         if (!is_null($file)) {
             $filename = date('Y-m-d-H:i:s') . '-' . $file->getClientOriginalName();
-            // dd($name);
 
             $compressedImg =  \InterventionImage::make($file)->resize(160, 100)->encode();
             Storage::put('public/profile_img/' . $filename, $compressedImg);
