@@ -10,15 +10,13 @@
                                 <th>ユーザー</th>
                                 <th class="p-2">タイトル</th>
                                 <th>いいね</th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($quize_groups as $group)
-
                                 <tr class="py-2">
                                     <td class="border hover:text-sky-500">
-                                        <a href="#">
+                                        <a href="{{ route('user.show', ['user' => $group->user_id]) }}">
                                             {{ $group->name }}
                                         </a>
                                     </td>
@@ -26,11 +24,12 @@
                                         <a href="{{ route('quize_group.show', ['group' => $group->id]) }}"
                                             class="underline hover:text-sky-500">{{ $group->title }}</a>
                                     </td>
-                                    <td class="border">{{ $group->good_count }}</td>
+                                    <td class="border">{{ $group->goodCount ?? 0 }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
+                    {{ $quize_groups->links() }}
                 </div>
             </div>
         </div>

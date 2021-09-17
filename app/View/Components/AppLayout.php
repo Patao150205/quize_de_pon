@@ -6,11 +6,11 @@ use Illuminate\View\Component;
 
 class AppLayout extends Component
 {
-    /**
-     * Get the view / contents that represents the component.
-     *
-     * @return \Illuminate\View\View
-     */
+    public $reset;
+    public function __construct($reset = 1)
+    {
+        $this->reset = $reset;
+    }
     public function render()
     {
         return view('layouts.app');

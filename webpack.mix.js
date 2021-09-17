@@ -18,3 +18,5 @@ mix.js('resources/js/app.js', 'public/js').postCss(
 );
 
 mix.js('resources/js/like.js', 'public/js');
+
+mix.js('resources/js/accordion.js', 'public/js');

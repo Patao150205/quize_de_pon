@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout reset="0">
     <div class="py-12 relative">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -26,22 +26,34 @@
         </x-quize.answer-modal>
     </div>
     <script>
+        const music = new Audio('{{ asset('audio/question.mp3') }}');
+        music.play();
+
         function selectChoice(e) {
             const modal = document.getElementById('modal');
             modal.classList.remove('hidden');
             const selectedChoice = e.dataset.choice;
-            console.log(selectedChoice)
-            if ('{{ $quize->answer_choice }}' === selectedChoice) {
+            // 正解
+            if ('{{ $quize->correct_choice }}' === selectedChoice) {
                 const correcct = document.getElementById('correct');
                 correct.classList.remove('hidden');
                 correct.classList.add('flex');
-            } else {
+                sessionStorage['correct_count'] = Number(sessionStorage['correct_count']) + 1;
+
+                const music = new Audio('{{ asset('audio/correct-answer.mp3') }}');
+                music.play();
+            }
+            // 不正解
+            else {
                 const incorrect = document.getElementById('incorrect');
                 incorrect.classList.remove('hidden');
                 incorrect.classList.add('flex');
+
+                const music = new Audio('{{ asset('audio/incorrect-answer.mp3') }}');
+                music.play();
             }
 
-            const correctAnswer = document.getElementById('{{ $quize->answer_choice }}').innerText;
+            const correctAnswer = document.getElementById('{{ $quize->correct_choice }}').innerText;
             document.getElementById('answer').innerText = correctAnswer;
         }
     </script>

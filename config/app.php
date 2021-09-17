@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Tokyo',
 
     /*
     |--------------------------------------------------------------------------
@@ -166,6 +166,8 @@ return [
          * Package Service Providers...
          */
 
+        \Intervention\Image\ImageServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
@@ -229,6 +231,9 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        // 独自
+        'InterventionImage' => \Intervention\Image\Facades\Image::class,
+        'Constant' => App\Constant\Common::class,
     ],
 
 ];

@@ -1,11 +1,11 @@
-<x-app-layout>
+<x-app-layout reset="0">
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="max-w-5xl w-full mx-auto bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 mx-auto bg-white border-b border-gray-200 text-center">
                     <h1 class="text-4xl mb-8 font-bold">クイズ成績</h1>
                     <h2 class="text-2xl mb-4">{{ $group->title }}</h2>
-                    <p class="mb-8 text-lg">正答数: 1 / {{ $count }}</p>
+                    <p id="result-count" class="mb-8 text-lg"></p>
                     <div class="relative max-w-md mx-auto">
                         <label for="good-count">
                             いいね
@@ -33,7 +33,7 @@
                             class="mb-8 border border-sky-400 py-2 px-4">お気に入りに追加</button>
                             @endif
                             <button onclick="location.href='{{ route('category.index') }}'"
-                                class="py-2 px-4 text-white border border-red-400 bg-red-400 focus:border-red-500 focus:bg-red-500 animate-pulse">クイズ一覧へ</button>
+                                class="py-2 px-4 text-white border border-red-400 bg-red-400 focus:border-red-500 focus:bg-red-500 animate-pulse">クイズカテゴリ一覧へ</button>
                         </div>
                     </div>
                 </div>
@@ -42,6 +42,18 @@
         </div>
     </div>
     <script>
+        const correctCount = sessionStorage.getItem('correct_count');
+
+        if ({{ $count }} == correctCount) {
+            const music = new Audio('{{ asset('audio/perfect-result.mp3') }}');
+            music.play();
+        } else {
+            const music = new Audio('{{ asset('audio/result.mp3') }}');
+            music.play();
+        }
+
+        const resultCount = document.getElementById('result-count');
+        resultCount.innerText = `正答数: ${correctCount} / {{ $count }}`;
         let toggleLike;
         let handleLike;
         const group_id = {{ $group->id }};
