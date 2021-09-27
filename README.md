@@ -2,14 +2,14 @@
 
 ## 概要
 
-手持ち無沙汰で暇な時、そんな時のための投稿型のクイズアプリ！
+手持ち無沙汰で暇な時、そんな時のための投稿型のクイズアプリ！ユーザー同士問題を出し合うことができます！
 
 ## URL＆テストアカウント
 
-[クイズでぽん!! ホーム](https://blush-toy-shop.herokuapp.com/)
+[クイズでぽん!! ホーム](https://hoge)
 
     email: test1@test.co.jp
-    password: 111111
+    password: password
 
 ## 主な使用技術
 
@@ -17,6 +17,7 @@
     Laravel
     Tailwind CSS
     JavaScript
+    Ajax
     Docker
 
 ## その他ライブラリ
