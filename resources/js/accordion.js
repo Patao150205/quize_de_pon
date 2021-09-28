@@ -128,7 +128,6 @@ handleSubmit = () => {
                 location.href = `/quize_group/${group_id}`;
             })
             .catch((err) => {
-                console.log(err.message);
                 alert('通信エラーが発生しました。');
                 submitBtn.removeAttribute('disabled');
             });
