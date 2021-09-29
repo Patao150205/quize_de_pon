@@ -33,7 +33,6 @@ toggleLike = async (e) => {
     const control = e.dataset.control;
     //  外部とのやり取り
     status = await handleLike(control, group_id, user_id);
-    console.log(status);
     const goodCount = document.getElementById('good-count');
     const favoriteBtn = document.getElementById('favorite-btn');
     const heart = document.getElementById('heart');

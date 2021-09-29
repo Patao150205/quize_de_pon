@@ -2378,7 +2378,6 @@ handleSubmit = function handleSubmit() {
       var group_id = res.data;
       location.href = "/quize_group/".concat(group_id);
     })["catch"](function (err) {
-      console.log(err.message);
       alert('通信エラーが発生しました。');
       submitBtn.removeAttribute('disabled');
     });

@@ -3185,7 +3185,6 @@ toggleLike = /*#__PURE__*/function () {
 
           case 3:
             status = _context2.sent;
-            console.log(status);
             goodCount = document.getElementById('good-count');
             favoriteBtn = document.getElementById('favorite-btn');
             heart = document.getElementById('heart');
@@ -3204,7 +3203,7 @@ toggleLike = /*#__PURE__*/function () {
               favoriteBtn.classList.remove('bg-gray-200');
             }
 
-          case 9:
+          case 8:
           case "end":
             return _context2.stop();
         }
