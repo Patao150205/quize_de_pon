@@ -9,19 +9,19 @@
                             href="{{ route('user.edit') }}">プロフィール編集</a>
                     @endif
                     <div class="p-8">
-                        <div class="shadow-xl mx-auto rounded-lg max-w-xl">
-                            <div class="flex bg-sky-50 rounded-b-lg px-8 py-8">
+                        <div class="shadow-xl mx-auto rounded-lg max-w-xl  p-4 bg-sky-200">
+                            <div class="flex">
                                 <img class="w-14 h-14 rounded-full mr-4 shadow-lg"
                                     src="{{ $user->profile_img ? asset('storage/profile_img/' . $user->profile_img) : asset('images/no-user.png') }}"
                                     alt="{{ $user->name }}さんのプロフィール画像">
                                 <div>
                                     <p class="text-gray-500">ID: {{ $user->id }}</p>
                                     <h1 class="text-2xl font-bold text-gray-700">{{ $user->name }}</h1>
-                                    <p class="mt-6 text-gray-700">
-                                        {{ $user->profile }}
-                                    </p>
                                 </div>
                             </div>
+                            <p class="mt-6 text-gray-700">
+                                {{ $user->profile }}
+                            </p>
                         </div>
                         <h1 class="text-4xl text-center mt-12 mb-8 font-bold">{{ $user->name }}さんのクイズ</h1>
                         <table class="mx-auto max-w-5xl w-full">

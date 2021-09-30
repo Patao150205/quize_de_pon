@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Quize;
 use App\Models\QuizeGroup;
 use App\Services\LikeService;
 use Illuminate\Http\Request;
@@ -119,5 +120,13 @@ class QuizeGroupController extends Controller
     }
     public function destroy($id)
     {
+        $isSuccess = QuizeGroup::destroy($id);
+
+        if ($isSuccess) {
+            return '削除に成功しました。';
+        } else {
+            http_response_code('500');
+            return '削除に失敗しました。';
+        }
     }
 }
