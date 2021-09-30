@@ -15,4 +15,7 @@ class CreateQuizeTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('ログインしていません。');
     }
+    // public function test_create_quize_unauthenticated_can_be_redirected() {
+    //     $response = $this->get()
+    // }
 }
