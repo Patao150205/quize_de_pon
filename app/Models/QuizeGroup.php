@@ -14,5 +14,6 @@ class QuizeGroup extends Model
         'user_id',
         'information',
         'category_id',
+        'has_content',
     ];
 }

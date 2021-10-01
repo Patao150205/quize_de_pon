@@ -99,7 +99,7 @@ class QuizeGroupController extends Controller
             ->get();
 
         if ($group->isEmpty()) {
-            abort('404');
+            return abort('404');
         }
 
         $categories =  Category::all(['id', 'name_jp']);
