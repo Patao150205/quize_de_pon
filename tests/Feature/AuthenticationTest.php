@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\App;
 use Tests\TestCase;
 
 class AuthenticationTest extends TestCase
@@ -15,7 +16,6 @@ class AuthenticationTest extends TestCase
     public function test_login_screen_can_be_rendered()
     {
         $response = $this->get('/login');
-
         $response->assertStatus(200);
     }
 

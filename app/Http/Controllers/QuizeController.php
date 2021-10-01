@@ -73,6 +73,9 @@ class QuizeController extends Controller
             ->where('user_id', Auth::id())
             ->first();
 
+        if (is_null($group)) {
+            return abort(404);
+        }
 
         $quizzes = Quize::where('user_id', Auth::id())
             ->where('quize_group_id', $id)

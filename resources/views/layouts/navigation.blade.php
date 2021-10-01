@@ -47,14 +47,15 @@
                                     新規登録
                                 </x-dropdown-link>
                             @else
+                                <x-dropdown-link
+                                    onclick="location.href='{{ route('user.show', ['user' => Auth::id()]) }}'">
+                                    <div class="font-medium text-base text-gray-800">
+                                        {{ Auth::user()->name ?? '' }}</div>
+                                    <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email ?? '' }}
+                                    </div>
+                                </x-dropdown-link>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
-                                    <x-dropdown-link :href="route('user.show', ['user' => Auth::id()])">
-                                        <div class="font-medium text-base text-gray-800">
-                                            {{ Auth::user()->name ?? '' }}</div>
-                                        <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email ?? '' }}
-                                        </div>
-                                    </x-dropdown-link>
                                     <x-dropdown-link :href="route('logout')" onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                         ログアウト
@@ -105,11 +106,7 @@
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
-            <x-responsive-nav-link :href="route('user.show', ['user' => Auth::id()])"
-                :active="request()->routeIs('user.show')">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name ?? '' }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email ?? '' }}</div>
-            </x-responsive-nav-link>
+
 
             <div class="mt-3 space-y-1">
                 <!-- Authentication -->
@@ -121,6 +118,11 @@
                         新規登録
                     </x-responsive-nav-link>
                 @else
+                    <x-responsive-nav-link :href="route('user.show', ['user' => Auth::id()])"
+                        :active="request()->routeIs('user.show', ['user' => Auth::id()])">
+                        <div class="font-medium text-base text-gray-800">{{ Auth::user()->name ?? '' }}</div>
+                        <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email ?? '' }}</div>
+                    </x-responsive-nav-link>
                     <form method="POST" action="route('logout')">
                         @csrf
                         <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault();
