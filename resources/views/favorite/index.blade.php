@@ -35,19 +35,14 @@
                             <table class="mx-auto max-w-5xl w-full">
                                 <thead class="border border-gray-800 text-white bg-sky-700">
                                     <tr>
-                                        <th class="p-2">ユーザー</th>
-                                        <th>タイトル</th>
+                                        <th class="p-2">タイトル</th>
                                         <th>カテゴリ</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($favorites as $favorite)
                                         <tr class="py-2">
-                                            <td class="border hover:text-sky-500">
-                                                <a href="{{ route('user.show', ['user' => $favorite->user_id]) }}">
-                                                    {{ $favorite->name }}
-                                                </a>
-                                            </td>
                                             <td class="p-2 border">
                                                 <a href="{{ route('quize_group.show', ['group' => $favorite->quize_group_id]) }}"
                                                     class="underline hover:text-sky-500">{{ $favorite->title }}</a>
@@ -57,6 +52,13 @@
                                                     href="{{ route('category.show', ['category' => $favorite->category_name]) }}">
                                                     {{ $favorite->name_jp }}
                                                 </a>
+                                            </td>
+                                            <td class="border hover:text-sky-500">
+                                                <button id="favorite-toggle-btn" type="button"
+                                                    onclick="toggleFavorite('{{ $favorite->quize_group_id }}', '{{ Auth::id() }}')"
+                                                    class="text-red-500 hover:underline">
+                                                    削除
+                                                </button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -88,4 +90,29 @@
             </div>
         </div>
     </div>
+    <script>
+        const favoriteToggleBtn = document.getElementById('favorite-toggle-btn');
+        const csrf_token = document.getElementsByName('csrf-token')[0].content;
+
+        function toggleFavorite(quize_group_id, user_id) {
+            fetch(`favorite/${quize_group_id}/${user_id}`, {
+                    headers: {
+                        'X-CSRF-TOKEN': csrf_token
+                    },
+                    method: 'POST'
+                }).then((res) => res.text())
+                .then((status) => {
+                    console.log(status);
+                    if (status === 'inc') {
+                        favoriteToggleBtn.innerText = '削除';
+                        favoriteToggleBtn.classList.add('text-red-500');
+                        favoriteToggleBtn.classList.remove('text-blue-500');
+                    } else if (status === 'dec') {
+                        favoriteToggleBtn.innerText = '登録';
+                        favoriteToggleBtn.classList.remove('text-red-500');
+                        favoriteToggleBtn.classList.add('text-blue-500');
+                    }
+                })
+        }
+    </script>
 </x-app-layout>
