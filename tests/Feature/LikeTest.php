@@ -10,9 +10,8 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
-class FavoriteTest extends TestCase
+class LikeTest extends TestCase
 {
-
     use RefreshDatabase;
 
     // リダイレクト
