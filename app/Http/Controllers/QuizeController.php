@@ -35,6 +35,11 @@ class QuizeController extends Controller
 
         array_pop($data);
 
+        $is_exists = QuizeGroup::where('id', $group_id)->exists();
+        if (!$is_exists) {
+            return response('更新対象のクイズ集が存在しません。', 404);
+        }
+
         DB::transaction(function () use ($group_id, $data) {
             Quize::join('quize_groups', 'quize_groups.id', '=', 'quizes.quize_group_id')
                 ->where('quizes.user_id', Auth::id())
@@ -89,6 +94,12 @@ class QuizeController extends Controller
         $data = json_decode($json, true);
         $array_length = count($data);
         $group_id = $data[$array_length - 1][0];
+
+        $is_exists = QuizeGroup::where('id', $group_id)->exists();
+
+        if (!$is_exists) {
+            return response('アップデート対象が存在しません。', 404);
+        }
 
         if ($array_length === 1) {
             DB::transaction(function () use ($group_id) {
