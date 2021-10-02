@@ -5,12 +5,12 @@ services:
         container_name: 'quize_de_pon_db'
         volumes:
             - ./docker/db/data:/var/lib/mysql
-            # - ./docker/db/my.conf:/etc/mysql/conf.d/my.conf
+            - ./docker/db/my.cnf:/etc/mysql/mariadb.conf.d/custom.cnf
         environment:
-            MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: quize_de_pon
-            MYSQL_USER: patao
-            MYSQL_PASSWORD: patao
+            MARIADB_ROOT_PASSWORD: root
+            MARIADB_DATABASE: quize_de_pon
+            MARIADB_USER: patao
+            MARIADB_PASSWORD: patao
             TZ: 'Asia/Tokyo'
         networks:
             - quize_de_pon_network

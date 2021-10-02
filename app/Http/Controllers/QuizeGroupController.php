@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Quize;
 use App\Models\QuizeGroup;
 use App\Services\LikeService;
 use Illuminate\Http\Request;
@@ -98,7 +99,7 @@ class QuizeGroupController extends Controller
             ->get();
 
         if ($group->isEmpty()) {
-            abort('404');
+            return abort('404');
         }
 
         $categories =  Category::all(['id', 'name_jp']);
@@ -119,5 +120,13 @@ class QuizeGroupController extends Controller
     }
     public function destroy($id)
     {
+        $quize_group = QuizeGroup::find($id);
+
+        if (is_null($quize_group)) {
+            return response('削除対象が存在しません', 404);
+        } else {
+            QuizeGroup::destroy($id);
+            return '削除に成功しました。';
+        }
     }
 }

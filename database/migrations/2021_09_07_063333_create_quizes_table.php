@@ -22,7 +22,6 @@ class CreateQuizesTable extends Migration
             $table->foreignId('quize_group_id')->index('group')->constrained()->onDelete('cascade')->onUpdate('cascade');
             // $table->foreignId('question_image_id')->nullable()->constrained('images');
             // $table->foreignId('explanation_image_id')->nullable()->constrained('images');
-            $table->timestamps();
         });
     }
     public function down()
