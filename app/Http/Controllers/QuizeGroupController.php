@@ -120,13 +120,13 @@ class QuizeGroupController extends Controller
     }
     public function destroy($id)
     {
-        $isSuccess = QuizeGroup::destroy($id);
+        $quize_group = QuizeGroup::find($id);
 
-        if ($isSuccess) {
-            return '削除に成功しました。';
+        if (is_null($quize_group)) {
+            return response('削除対象が存在しません', 404);
         } else {
-            http_response_code('500');
-            return '削除に失敗しました。';
+            QuizeGroup::destroy($id);
+            return '削除に成功しました。';
         }
     }
 }

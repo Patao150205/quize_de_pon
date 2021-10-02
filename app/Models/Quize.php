@@ -9,6 +9,8 @@ class Quize extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
         'question',
         'choice1',

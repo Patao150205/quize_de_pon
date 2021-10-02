@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\App;
 use Tests\TestCase;
 
-class QuizeListTest extends TestCase
+class QuizeCategoryTest extends TestCase
 {
     use RefreshDatabase;
 
