@@ -17,16 +17,17 @@ class RegistrationTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_new_users_can_register()
+    public function test_new_temporary_user_can_register()
     {
-        $response = $this->post('/register', [
+        $sendData = [
             'name' => 'Test User',
             'email' => 'test@example.com',
             'password' => 'password',
             'password_confirmation' => 'password',
-        ]);
-
-        $this->assertAuthenticated();
-        $response->assertRedirect(RouteServiceProvider::HOME);
+            'token' => uniqid('', true),
+        ];
+        $response = $this->post('/register', $sendData);
+        $response->assertRedirect('/verify_email/notification');
+        $this->assertDatabaseHas('email_verfications', $sendData);
     }
 }
