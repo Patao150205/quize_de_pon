@@ -6,6 +6,12 @@
             </a>
         </x-slot>
 
+        <div class="text-center border border-gray-400 my-8 p-4">
+            <h2 class="text-bold text-lg text-sky-500">テストユーザー</h2>
+            <p>メールアドレス: test1@test.co.jp</p>
+            <p>パスワード: password</p>
+        </div>
+
         <!-- Session Status -->
         <x-auth-session-status class="mb-4" :status="session('status')" />
 
@@ -53,6 +59,10 @@
                     ログイン
                 </x-button>
             </div>
+            <a class="block text-center underline text-sm text-gray-600 pt-8 hover:text-gray-900"
+                href="{{ route('register') }}">
+                新規登録はこちらから
+            </a>
         </form>
     </x-auth-card>
 </x-app-layout>
