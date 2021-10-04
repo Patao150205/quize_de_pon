@@ -3107,7 +3107,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
-handleLike = /*#__PURE__*/function () {
+var handleLike = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(control, group_id, user_id) {
     var csrf_token, target, res, _status;
 
@@ -3171,7 +3171,7 @@ handleLike = /*#__PURE__*/function () {
   };
 }();
 
-toggleLike = /*#__PURE__*/function () {
+window.toggleLike = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2(e) {
     var control, goodCount, favoriteBtn, heart;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
@@ -3211,7 +3211,7 @@ toggleLike = /*#__PURE__*/function () {
     }, _callee2);
   }));
 
-  return function toggleLike(_x4) {
+  return function (_x4) {
     return _ref2.apply(this, arguments);
   };
 }();

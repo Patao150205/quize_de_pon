@@ -26,7 +26,6 @@ class LikeTest extends TestCase
 
         $response = $this->actingAs($user)->get('/favorite');
 
-        $response->assertSee('ユーザー');
         $response->assertSee('タイトル');
         $response->assertSee('カテゴリ');
 

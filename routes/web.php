@@ -5,6 +5,9 @@ use App\Http\Controllers\LikeController;
 use App\Http\Controllers\QuizeController;
 use App\Http\Controllers\QuizeGroupController;
 use App\Http\Controllers\UserController;
+use App\Models\EmailVerification;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -16,6 +19,7 @@ Route::name('user.')->group(function () {
     Route::get('/user/{user}', [UserController::class, 'show'])->name('show');
     Route::middleware('auth')->post('/user/update', [UserController::class, 'update'])->name('update');
 });
+
 
 Route::name('category.')->group(function () {
     Route::get('/category', [CategoryController::class, 'index'])->name('index');
