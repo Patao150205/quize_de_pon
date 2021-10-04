@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-handleLike = async (control, group_id, user_id) => {
+const handleLike = async (control, group_id, user_id) => {
     const csrf_token = document.getElementsByName('csrf-token')[0].content;
     let target;
 
@@ -29,7 +29,7 @@ handleLike = async (control, group_id, user_id) => {
     }
 };
 
-toggleLike = async (e) => {
+window.toggleLike = async (e) => {
     const control = e.dataset.control;
     //  外部とのやり取り
     status = await handleLike(control, group_id, user_id);

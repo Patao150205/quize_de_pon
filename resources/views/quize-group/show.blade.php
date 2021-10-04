@@ -21,7 +21,7 @@
                             <span @if (is_null(Auth::id()))
                                 onclick="location.href='{{ route('login') }}'"
                                 @endif
-                                id="heart" data-control="0" onclick="toggleLike(this)"
+                                id="heart" data-control="0" onclick="window.toggleLike(this)"
                                 class="@if ($isGood)
                                 text-red-500
                             @endif fas fa-heart mr-3 cursor-pointer"></span><span
@@ -52,8 +52,6 @@
     </div>
     <script>
         sessionStorage.setItem('correct_count', 0);
-        let toggleLike;
-        let handleLike;
         const group_id = {{ $group->group_id }};
         const user_id = {{ Auth::id() }};
     </script>
