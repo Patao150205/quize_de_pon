@@ -4,6 +4,11 @@
 
 手持ち無沙汰で暇な時、そんな時のための投稿型のクイズアプリ！ユーザー同士問題を出し合うことができます！
 ___
+## イメージ
+![イメージ1](https://user-images.githubusercontent.com/79029696/135967485-4b06d42a-039e-42e4-b7d3-94dba7540cd5.png)
+![イメージ2](https://user-images.githubusercontent.com/79029696/135967489-827672a5-edb9-43be-8816-8da7bfcf73b3.png)
+![イメージ3](https://user-images.githubusercontent.com/79029696/135967483-fadd8195-531d-49aa-a805-72e007640320.png)
+___
 
 ## URL＆テストアカウント
 
