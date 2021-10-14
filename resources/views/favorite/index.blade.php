@@ -102,7 +102,6 @@
                     method: 'POST'
                 }).then((res) => res.text())
                 .then((status) => {
-                    console.log(status);
                     if (status === 'inc') {
                         favoriteToggleBtn.innerText = '削除';
                         favoriteToggleBtn.classList.add('text-red-500');
