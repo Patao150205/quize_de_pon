@@ -15,3 +15,5 @@ yarn-error.log
 /.vscode
 docker/db/data/**/*
 .env.testing
+
+docker-compose.prod.yaml
