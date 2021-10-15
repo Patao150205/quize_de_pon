@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class RegistrationTest extends TestCase
@@ -19,15 +20,20 @@ class RegistrationTest extends TestCase
 
     public function test_new_temporary_user_can_register()
     {
+        $token = uniqid('', true);
         $sendData = [
             'name' => 'Test User',
             'email' => 'test@example.com',
             'password' => 'password',
             'password_confirmation' => 'password',
-            'token' => uniqid('', true),
+            'token' => $token
+        ];
+        $emailVerificationData = [
+            'name' => 'Test User',
+            'email' => 'test@example.com',
         ];
         $response = $this->post('/register', $sendData);
         $response->assertRedirect('/verify_email/notification');
-        $this->assertDatabaseHas('email_verfications', $sendData);
+        $this->assertDatabaseHas('email_verifications', $emailVerificationData);
     }
 }
