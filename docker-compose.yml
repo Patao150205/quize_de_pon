@@ -19,7 +19,7 @@ services:
         container_name: 'quize_de_pon_php_app'
         volumes:
             - .:/var/www/html
-            - ./docker/apache/virtual.conf:/etc/apache2/conf-enabled/vhost.conf
+            - ./docker/apache/vhost.conf:/etc/apache2/sites-enabled/vhost.conf
         ports:
             - '8081:80'
         networks:
