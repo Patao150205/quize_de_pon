@@ -12,7 +12,7 @@ let validationHTML = '';
 const html = () => `
 <li id="tab${accordionCount}" class="w-full mx-auto overflow-scroll">
 <form  id="form${accordionCount}">
-<div class="tab w-full overflow-hidden border-t">
+<div class="tab w-full overflow-scroll border-t">
 <input class="absolute opacity-0" id="tab-single-${accordionCount}" type="radio" name="tabs" />
 <label class="block p-5 leading-normal cursor-pointer" for="tab-single-${accordionCount}">第${accordionCount}問</label>
 <div class="tab-content overflow-scroll border-l-2 bg-gray-100 border-yellow-500 leading-normal">
