@@ -25,6 +25,17 @@
             sessionStorage['correct_count'] = 0;
         @endif
     </script>
+
+    @if (request()->routeIs('welcome')) {
+        <meta property="og:title" content="クイズでぽん！！" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://quize.patapatao.com" />
+        <meta property="og:image" content="{{ asset('images/quize_de_pon.png') }}" />
+        <meta property="og:site_name" content="クイズでぽん！！" />
+        <meta property="og:description" content="暇つぶしのための投稿型クイズアプリ" />
+        <meta name="twitter:card" content="summary_large_image" />
+        }
+    @endif
 </head>
 
 <body class="font-sans antialiased">
