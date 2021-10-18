@@ -23,7 +23,7 @@
                                         <label class="block p-5 leading-normal cursor-pointer"
                                             for="tab-single-{{ $i }}">第{{ $i }}問</label>
                                         <div
-                                            class="tab-content overflow-hidden border-l-2 bg-gray-100 border-yellow-500 leading-normal">
+                                            class="tab-content overflow-scroll border-l-2 bg-gray-100 border-yellow-500 leading-normal">
                                             <div class="p-5">
                                                 <div class="my-2">
                                                     <label class="block"

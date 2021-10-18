@@ -10,6 +10,11 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+if (config('app.env') === 'production') {
+    // asset()やurl()がhttpsで生成される
+    URL::forceScheme('https');
+}
+
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
