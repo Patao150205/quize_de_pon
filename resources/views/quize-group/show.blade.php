@@ -9,7 +9,7 @@
                     </p>
                     <p class="mb-8">問題数: {{ $quizeQuantity }}</p>
                     <div class="relative max-w-md mx-auto">
-                        <label style="left: 10.5rem" class="py-1 px-2 -top-4 bg-white absolute" for="info">
+                        <label class="py-1 px-2 -top-4 bg-white absolute left-1/2 transform -translate-x-1/2" for="info">
                             クイズの概要
                         </label>
                         <p class="w-full py-4 px-4 mb-8 border border-yellow-500" id="info" class="mb-8">

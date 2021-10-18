@@ -15,7 +15,7 @@ const html = () => `
 <div class="tab w-full overflow-hidden border-t">
 <input class="absolute opacity-0" id="tab-single-${accordionCount}" type="radio" name="tabs" />
 <label class="block p-5 leading-normal cursor-pointer" for="tab-single-${accordionCount}">第${accordionCount}問</label>
-<div class="tab-content overflow-hidden border-l-2 bg-gray-100 border-yellow-500 leading-normal">
+<div class="tab-content overflow-scroll border-l-2 bg-gray-100 border-yellow-500 leading-normal">
 <div class="p-5">
 <div class="my-2">
 <label class="block" for="question${accordionCount}">問題<span class="text-red-500 ml-1">*</span></label>

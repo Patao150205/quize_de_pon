@@ -23,13 +23,13 @@
                                         <label class="block p-5 leading-normal cursor-pointer"
                                             for="tab-single-{{ $i }}">第{{ $i }}問</label>
                                         <div
-                                            class="tab-content overflow-hidden border-l-2 bg-gray-100 border-yellow-500 leading-normal">
+                                            class="tab-content overflow-scroll border-l-2 bg-gray-100 border-yellow-500 leading-normal">
                                             <div class="p-5">
                                                 <div class="my-2">
                                                     <label class="block"
                                                         for="question{{ $i }}">問題<span
                                                             class="text-red-500 ml-1">*</span></label>
-                                                    <textarea required name="question{{ $i }}"
+                                                    <textarea rows="4" required name="question{{ $i }}"
                                                         placeholder="問題文"
                                                         class="w-full focus:outline-none border focus:border-yellow-300"
                                                         id="question{{ $i }}"
@@ -91,7 +91,7 @@
                                                 <div class="my-2">
                                                     <label class="block"
                                                         for="explanation{{ $i }}">答えの説明</label>
-                                                    <textarea required name="explanation{{ $i }}"
+                                                    <textarea rows="4" required name="explanation{{ $i }}"
                                                         placeholder="答えの説明"
                                                         class="w-full focus:outline-none border focus:border-yellow-300"
                                                         id="explanation{{ $i }}"
