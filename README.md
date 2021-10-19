@@ -12,7 +12,7 @@ ___
 
 ## URL＆テストアカウント
 
-***[クイズでぽん!! ホーム](https://hoge)***
+***[クイズでぽん!! ホーム](https://quize.patapatao.com)***
 ### テストユーザー  
 
     email: test1@test.co.jp
@@ -60,10 +60,10 @@ ___
     Docker
 
 ## 本番環境
-    さくらvps
+    自宅サーバー
     Docker
 
-サーバー構成の詳細(`README.md`)はこちら-> ***[patao_serverリポジトリ](https://github.com/Patao150205/patao_server)***
+自宅サーバー構成の詳細(`README.md`)はこちら-> ***[patao_serverリポジトリ](https://github.com/Patao150205/patao_server)***
 ___
 
 ## 苦労したこと・こだわったポイント
