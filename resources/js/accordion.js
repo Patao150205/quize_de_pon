@@ -19,7 +19,7 @@ const html = () => `
 <div class="p-5">
 <div class="my-2">
 <label class="block" for="question${accordionCount}">問題<span class="text-red-500 ml-1">*</span></label>
-<textarea required name="question${accordionCount}" placeholder="問題文"
+<textarea rows="4" required name="question${accordionCount}" placeholder="問題文"
 class="w-full focus:outline-none border focus:border-yellow-300" id="question${accordionCount}"
 name="question${accordionCount}" type="text"></textarea>
 </div>
@@ -49,7 +49,7 @@ placeholder="選択肢4" id="${accordionCount}_choice4" name="${accordionCount}_
 </div>
 <div class="my-2">
 <label class="block" for="explanation${accordionCount}">答えの説明</label>
-<textarea required name="explanation${accordionCount}" placeholder="答えの説明"
+<textarea rows="4" required name="explanation${accordionCount}" placeholder="答えの説明"
 class="w-full focus:outline-none border focus:border-yellow-300" id="explanation${accordionCount}"
 name="explanation${accordionCount}" type="text"></textarea>
 </div>
