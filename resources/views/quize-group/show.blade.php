@@ -7,7 +7,7 @@
                     <p class="mb-8">製作者: <a class="underline hover:text-sky-500"
                             href="{{ route('user.show', ['user' => $group->user_id]) }}">{{ $group->username }}</a>
                     </p>
-                    <p class="mb-8">問題数: {{ $quizeQuantity }}</p>
+                    <p class="mb-8">問題数: {{ $count }}</p>
                     <div class="relative max-w-md mx-auto">
                         <label class="py-1 px-2 -top-4 bg-white absolute left-1/2 transform -translate-x-1/2" for="info">
                             クイズの概要

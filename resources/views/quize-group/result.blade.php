@@ -11,7 +11,7 @@
                             いいね
                         </label>
                         <p id="good-btn" class="mb-8 mt-2">
-                            <span @if (is_null($userId))
+                            <span @if (is_null(Auth::id()))
                                 onclick="location.href='{{ route('login') }}'"
                                 @endif
                                 id="heart" data-control="0" onclick="toggleLike(this)"
@@ -26,7 +26,7 @@
                                 <button id="favorite-btn" data-control="1" onclick="toggleLike(this)"
                                     class="bg-gray-200 mb-8 border border-sky-400 py-2 px-4">お気に入りを解除</button>
                             @else
-                                <button @if (is_null($userId))
+                                <button @if (is_null(Auth::id()))
                                     onclick="location.href='{{ route('login') }}'"
                             @endif
                             id="favorite-btn" data-control="1" onclick="toggleLike(this)"
@@ -54,8 +54,6 @@
 
         const resultCount = document.getElementById('result-count');
         resultCount.innerText = `正答数: ${correctCount} / {{ $count }}`;
-        let toggleLike;
-        let handleLike;
         const group_id = {{ $group->id }};
         const user_id = {{ $group->user_id }};
     </script>

@@ -16,19 +16,11 @@ class LikeService
 			->where('quize_group_id', $id)
 			->get()[0]->count;
 
-		$quizeQuantity = DB::table('quizes')
-			->select(DB::raw('count(*) as count'))
-			->where('quize_group_id', $id)
-			->get()[0]->count;
-
-
 		if (is_null($userId)) {
 			return [
 				'isGood' => null,
 				'isFavorite' => null,
-				'userId' => null,
 				'goodCount' => $goodCount,
-				'quizeQuantity' => $quizeQuantity
 			];
 		} else {
 
@@ -48,9 +40,7 @@ class LikeService
 			return [
 				'isGood' => $isGood,
 				'isFavorite' => $isFavorite,
-				'userId' => $userId,
 				'goodCount' => $goodCount,
-				'quizeQuantity' => $quizeQuantity
 			];
 		}
 	}

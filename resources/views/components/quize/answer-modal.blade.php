@@ -25,7 +25,7 @@ $nextSortNum = $sortNum + 1;
         <p>
 
         <div class="relative text-center w-full">
-            <label style="left: 11.5rem" class="py-1 px-2 -top-4 bg-white absolute" for="info">
+            <label class="py-1 px-2 -top-4 left-1/2 transform -translate-x-1/2 bg-white absolute" for="info">
                 答えの解説
             </label>
             <p class="w-full py-4 px-4 mb-8 border border-yellow-500" id="info" class="mb-8">

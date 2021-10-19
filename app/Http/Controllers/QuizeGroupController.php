@@ -67,13 +67,19 @@ class QuizeGroupController extends Controller
             ->where('quize_groups.id', '=', $id)
             ->get();
 
+        $count = DB::table('quizes')
+            ->select(DB::raw('count(*) as count'))
+            ->where('quize_group_id', $id)
+            ->get()[0]->count;
+
         if ($group->isEmpty()) {
             abort('404');
         }
 
         $status = LikeService::searchLikeStatus($group[0]->group_id);
+        // dd($status);
 
-        return view('quize-group.show', ['group' => $group[0]], $status);
+        return view('quize-group.show', ['group' => $group[0], 'count' => $count], $status);
     }
     public function editList()
     {

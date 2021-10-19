@@ -26,7 +26,7 @@
         @endif
     </script>
 
-    @if (request()->routeIs('welcome')) {
+    @if (request()->routeIs('welcome'))
         <meta property="og:title" content="クイズでぽん！！" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://quize.patapatao.com" />
@@ -34,7 +34,6 @@
         <meta property="og:site_name" content="クイズでぽん！！" />
         <meta property="og:description" content="暇つぶしのための投稿型クイズアプリ" />
         <meta name="twitter:card" content="summary_large_image" />
-        }
     @endif
 </head>
 
