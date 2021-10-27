@@ -18,26 +18,6 @@ class QuizeGroupController extends Controller
     {
         return view('quize-group.menu');
     }
-    public function result($id)
-    {
-        $group = DB::table('quize_groups')
-            ->select()
-            ->where('id', $id)
-            ->get();
-
-        if ($group->isEmpty()) {
-            abort('404');
-        }
-
-        $count = DB::table('quizes')
-            ->select(DB::raw('count(*) as count'))
-            ->where('quize_group_id', $id)
-            ->get()[0]->count;
-
-        $status = LikeService::searchLikeStatus($group[0]->id);
-
-        return view('quize-group.result', ['group' => $group[0], 'count' => $count], $status);
-    }
     public function create()
     {
         $categories =  Category::all(['id', 'name_jp']);
@@ -65,21 +45,31 @@ class QuizeGroupController extends Controller
             ->join('categories', 'categories.id', '=', 'quize_groups.category_id')
             ->join('users', 'users.id', '=', 'quize_groups.user_id')
             ->where('quize_groups.id', '=', $id)
-            ->get();
+            ->first();
 
-        $count = DB::table('quizes')
-            ->select(DB::raw('count(*) as count'))
-            ->where('quize_group_id', $id)
-            ->get()[0]->count;
+        if (empty($group)) {
+            abort('404');
+        }
+        $quizemd = new Quize();
 
-        if ($group->isEmpty()) {
+        $status = LikeService::searchLikeStatus($group->group_id);
+        // dd($status);
+        return view('quize-group.show', ['group' => $group, 'count' => $quizemd->getQuizeCount($group->group_id)], $status);
+    }
+    public function result($id)
+    {
+        $group = DB::table('quize_groups')
+            ->where('id', $id)
+            ->first();
+
+        if (empty($group)) {
             abort('404');
         }
 
-        $status = LikeService::searchLikeStatus($group[0]->group_id);
-        // dd($status);
+        $quizemd = new Quize();
+        $status = LikeService::searchLikeStatus($group->id);
 
-        return view('quize-group.show', ['group' => $group[0], 'count' => $count], $status);
+        return view('quize-group.result', ['group' => $group, 'count' => $quizemd->getQuizeCount($group->id)], $status);
     }
     public function editList()
     {
@@ -126,7 +116,7 @@ class QuizeGroupController extends Controller
     }
     public function destroy($id)
     {
-        $quize_group = QuizeGroup::find($id);
+        $quize_group = QuizeGroup::exists($id);
 
         if (is_null($quize_group)) {
             return response('削除対象が存在しません', 404);

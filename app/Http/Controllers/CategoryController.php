@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\QuizeGroup;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Facades\DB;
 
@@ -10,45 +12,20 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = DB::table('categories')->select('name_jp', 'name')->get();
+
         return view('category.index', compact('categories'));
     }
     public function show($category_name)
     {
         $category = null;
+        $quize_group_md = new QuizeGroup();
+        $category_md = new Category();
 
         if ($category_name === 'all') {
-            $quize_groups = DB::table('quize_groups')
-                ->select(['quize_groups.id', 'title', 'name', 'users.id as user_id', 'goodCount' => function (QueryBuilder $query) {
-                    $query
-                        ->selectRaw('count(*)')
-                        ->from('goods')
-                        ->whereRaw('goods.quize_group_id = quize_groups.id')
-                        ->groupBy('quize_groups.id');
-                }])
-                ->join('users', 'users.id', '=', 'quize_groups.user_id')
-                ->where('has_content', '=', '1')
-                ->paginate(10);
+            $quize_groups =  $quize_group_md->getAllQuizeGroups();
         } else {
-            $category = DB::table('categories')
-                ->select('id', 'name_jp')
-                ->where('name', '=', $category_name)
-                ->get();
-            if ($category->isEmpty()) {
-                abort('404');
-            }
-            $category = $category[0];
-            $quize_groups = DB::table('quize_groups')
-                ->select(['quize_groups.id', 'title', 'name', 'users.id as user_id', 'goodCount' => function (QueryBuilder $query) {
-                    $query
-                        ->selectRaw('count(*)')
-                        ->from('goods')
-                        ->whereRaw('goods.quize_group_id = quize_groups.id')
-                        ->groupBy('quize_groups.id');
-                }])
-                ->join('users', 'users.id', '=', 'quize_groups.user_id')
-                ->where('has_content', '=', '1')
-                ->where('category_id', $category->id)
-                ->paginate(10);
+            $category = $category_md->searchCategoryInfo($category_name);
+            $quize_groups =  $quize_group_md->getQuizeGroupsForEachCategory($category->id);
         }
 
         return view('category.show', compact('quize_groups', 'category'));

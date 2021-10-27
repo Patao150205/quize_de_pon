@@ -23,4 +23,11 @@ class Quize extends Model
         'user_id',
         'quize_group_id',
     ];
+
+    public function getQuizeCount($quize_group_id)
+    {
+        $count = $this->where('quize_group_id', $quize_group_id)->count();
+
+        return $count;
+    }
 }
