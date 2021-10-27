@@ -23,15 +23,15 @@ class QuizeGroup extends Model
     public function getAllQuizeGroups()
     {
         $quize_groups = DB::table('quize_groups')
-            ->select(['quize_groups.id as quize_group_id', 'title', 'name_jp', 'goodCount' => function (Builder $query) {
+            ->select(['quize_groups.id', 'title', 'name', 'users.id as user_id', 'goodCount' => function (Builder $query) {
                 $query
                     ->selectRaw('count(*)')
                     ->from('goods')
                     ->whereRaw('goods.quize_group_id = quize_groups.id')
                     ->groupBy('quize_groups.id');
             }])
-            ->join('categories', 'categories.id', '=', 'quize_groups.category_id')
-            ->where('user_id', Auth::id())
+            ->join('users', 'users.id', '=', 'quize_groups.user_id')
+            ->where('has_content', '=', '1')
             ->paginate(10);
 
         return $quize_groups;

@@ -33,6 +33,7 @@ class LikeController extends Controller
             return response('inc')->header('Content-Type', 'text/plain');
         } else {
             Favorite::where('quize_group_id', $groupId)->where('user_id', $user_id)->delete();
+
             return response('dec')->header('Content-Type', 'text/plain');
         }
     }
@@ -45,9 +46,11 @@ class LikeController extends Controller
                 'quize_group_id' => $groupId,
                 'user_id' => $user_id
             ]);
+
             return response('inc')->header('Content-Type', 'text/plain');
         } else {
             Good::where('quize_group_id', $groupId)->where('user_id', $user_id)->delete();
+
             return response('dec')->header('Content-Type', 'text/plain');
         }
     }

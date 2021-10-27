@@ -28,6 +28,7 @@ class CategoryController extends Controller
             $quize_groups =  $quize_group_md->getQuizeGroupsForEachCategory($category->id);
         }
 
+        // dd($quize_groups);
         return view('category.show', compact('quize_groups', 'category'));
     }
 }

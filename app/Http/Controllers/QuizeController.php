@@ -6,7 +6,6 @@ use App\Models\Quize;
 use App\Models\QuizeGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class QuizeController extends Controller
 {
@@ -14,25 +13,25 @@ class QuizeController extends Controller
     {
         $group = QuizeGroup::where('user_id', Auth::id())
             ->where('id', $quize_group_id)
-            ->get();
+            ->first();
 
-        if ($group->isEmpty()) {
+        if (empty($group)) {
             abort(404);
         }
 
-        if ($group[0]->has_content != 0) {
+        if ($group->has_content != 0) {
             return redirect()->route('quize_group.menu');
         }
 
-        return view('quize.create', ['group' => $group[0]]);
+        return view('quize.create', compact('group'));
     }
     public function store(Request $request)
     {
+        // データ処理
         $json = $request->getContent();
         $data = json_decode($json, true);
         $array_length = count($data);
         $group_id = $data[$array_length - 1][0];
-
         array_pop($data);
 
         $is_exists = QuizeGroup::where('id', $group_id)->exists();
@@ -40,17 +39,8 @@ class QuizeController extends Controller
             return response('更新対象のクイズ集が存在しません。', 404);
         }
 
-        DB::transaction(function () use ($group_id, $data) {
-            Quize::join('quize_groups', 'quize_groups.id', '=', 'quizes.quize_group_id')
-                ->where('quizes.user_id', Auth::id())
-                ->where('quize_group_id', $group_id)
-                ->delete();
-            QuizeGroup::where('user_id', Auth::id())
-                ->where('id', $group_id)
-                ->update(['has_content' => 1]);
-
-            Quize::insert($data);
-        }, 3);
+        $quize_md = new Quize();
+        $quize_md->registQuizes($group_id, $data);
 
         return response($group_id)->header('Content-Type', 'text/plain');
     }
@@ -58,19 +48,17 @@ class QuizeController extends Controller
     public function show($group_id, $sort_num)
     {
         if ($sort_num <= 0) {
-            abort('404');
+            return abort('404');
         }
 
-        $quize_quantity = DB::table('quizes')->select(DB::raw('count(*) as quantity'))->where('quize_group_id', $group_id)->get()[0]->quantity;
+        $quize_md = new Quize();
+        $quize_info = $quize_md->fetchQuize($group_id, $sort_num);
 
-        if ($quize_quantity != 0 && $sort_num <= $quize_quantity) {
-            $quize = DB::table('quizes')->where('quize_group_id', $group_id)->where('sort_num', $sort_num)->get()[0];
-            $isLast = $sort_num == $quize_quantity ? 'true' : 'false';
-        } else {
-            abort('404');
+        if ($quize_info === false) {
+            return abort('404');
         }
 
-        return view('quize.show', compact('quize', 'isLast'));
+        return view('quize.show', ['quize' => $quize_info['quize'], 'isLast' => $quize_info['isLast']]);
     }
     public function edit($id)
     {
@@ -78,7 +66,7 @@ class QuizeController extends Controller
             ->where('user_id', Auth::id())
             ->first();
 
-        if (is_null($group)) {
+        if (empty($group)) {
             return abort(404);
         }
 
@@ -101,31 +89,12 @@ class QuizeController extends Controller
             return response('アップデート対象が存在しません。', 404);
         }
 
+        $quize_md = new Quize();
         if ($array_length === 1) {
-            DB::transaction(function () use ($group_id) {
-                QuizeGroup::where('user_id', Auth::id())
-                    ->where('id', $group_id)
-                    ->update(['has_content' => 0]);
-
-                Quize::join('quize_groups', 'quize_groups.id', '=', 'quizes.quize_group_id')
-                    ->where('quizes.user_id', Auth::id())
-                    ->where('quize_group_id', $group_id)
-                    ->delete();
-            }, 3);
+            $quize_md->updateQuizzesWithoutContents($group_id);
         } else {
             array_pop($data);
-
-            DB::transaction(function () use ($group_id, $data) {
-                Quize::join('quize_groups', 'quize_groups.id', '=', 'quizes.quize_group_id')
-                    ->where('quizes.user_id', Auth::id())
-                    ->where('quize_group_id', $group_id)
-                    ->delete();
-                QuizeGroup::where('user_id', Auth::id())
-                    ->where('id', $group_id)
-                    ->update(['has_content' => 1]);
-
-                Quize::insert($data);
-            }, 3);
+            $quize_md->updateQuizzes($group_id, $data);
         }
 
         return response($group_id)->header('Content-Type', 'text/plain');
