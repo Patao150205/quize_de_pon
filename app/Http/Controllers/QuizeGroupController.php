@@ -9,7 +9,6 @@ use App\Services\LikeService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Query\Builder as QueryBuilder;
 
 class QuizeGroupController extends Controller
 {
@@ -20,7 +19,7 @@ class QuizeGroupController extends Controller
     }
     public function create()
     {
-        $categories =  Category::all(['id', 'name_jp']);
+        $categories = Category::all(['id', 'name_jp']);
 
         return view('quize-group.create', compact('categories'));
     }
@@ -40,20 +39,17 @@ class QuizeGroupController extends Controller
     // クイズグループ
     public function show($id)
     {
-        $group = DB::table('quize_groups')
-            ->select(DB::raw('users.id as user_id, quize_groups.id as group_id, users.name as username, categories.name as category_name_jp, information, title'))
-            ->join('categories', 'categories.id', '=', 'quize_groups.category_id')
-            ->join('users', 'users.id', '=', 'quize_groups.user_id')
-            ->where('quize_groups.id', '=', $id)
-            ->first();
+        $quize_groupmd = new QuizeGroup();
+        $group = $quize_groupmd->getQuizeGroup($id);
 
         if (empty($group)) {
             abort('404');
         }
+
         $quizemd = new Quize();
 
         $status = LikeService::searchLikeStatus($group->group_id);
-        // dd($status);
+
         return view('quize-group.show', ['group' => $group, 'count' => $quizemd->getQuizeCount($group->group_id)], $status);
     }
     public function result($id)
@@ -73,18 +69,8 @@ class QuizeGroupController extends Controller
     }
     public function editList()
     {
-        $quize_groups = DB::table('quize_groups')
-            ->select(['quize_groups.id as quize_group_id', 'title', 'name_jp', 'goodCount' => function (QueryBuilder $query) {
-                $query
-                    ->selectRaw('count(*)')
-                    ->from('goods')
-                    ->whereRaw('goods.quize_group_id = quize_groups.id')
-                    ->groupBy('quize_groups.id');
-            }])
-            ->join('categories', 'categories.id', '=', 'quize_groups.category_id')
-            ->where('user_id', Auth::id())
-            ->paginate(10);
-
+        $quize_group_md = new QuizeGroup();
+        $quize_groups = $quize_group_md->getEditListQuizeGroups();
         return view('quize-group.edit-list', compact('quize_groups'));
     }
     public function edit($id)
@@ -116,13 +102,13 @@ class QuizeGroupController extends Controller
     }
     public function destroy($id)
     {
-        $quize_group = QuizeGroup::exists($id);
+        $quize_group = QuizeGroup::where('id', $id)->exists();
 
-        if (is_null($quize_group)) {
-            return response('削除対象が存在しません', 404);
-        } else {
+        if ($quize_group) {
             QuizeGroup::destroy($id);
             return '削除に成功しました。';
+        } else {
+            return response('削除対象が存在しません', 404);
         }
     }
 }

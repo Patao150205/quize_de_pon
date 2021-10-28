@@ -147,11 +147,11 @@ class QuizeGroupTest extends TestCase
     {
         $quize_group = QuizeGroup::factory()->create();
         $user = User::find($quize_group->user_id);
-        $a = QuizeGroup::where('id', $quize_group->id + 10000)->first();
-        $response = $this->actingAs($user)->post('/quize_group/destroy/' . $quize_group->id + 1);
+        $response = $this->actingAs($user)->post('/quize_group/destroy/' . $quize_group->id + 10000);
         $this->assertDatabaseHas('quize_groups', [
             'id' => $quize_group->id
         ]);
+
         $response->assertStatus(404);
     }
 }
