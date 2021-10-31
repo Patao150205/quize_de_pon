@@ -15,11 +15,9 @@ class CategoryController extends Controller
 
         return view('category.index', compact('categories'));
     }
-    public function show($category_name)
+    public function show($category_name, QuizeGroup $quize_group_md, Category $category_md)
     {
         $category = null;
-        $quize_group_md = new QuizeGroup();
-        $category_md = new Category();
 
         if ($category_name === 'all') {
             $quize_groups =  $quize_group_md->getAllQuizeGroups();
@@ -28,7 +26,6 @@ class CategoryController extends Controller
             $quize_groups =  $quize_group_md->getQuizeGroupsForEachCategory($category->id);
         }
 
-        // dd($quize_groups);
         return view('category.show', compact('quize_groups', 'category'));
     }
 }

@@ -25,7 +25,7 @@ class QuizeController extends Controller
 
         return view('quize.create', compact('group'));
     }
-    public function store(Request $request)
+    public function store(Request $request, Quize $quize_md)
     {
         // データ処理
         $json = $request->getContent();
@@ -39,19 +39,17 @@ class QuizeController extends Controller
             return response('更新対象のクイズ集が存在しません。', 404);
         }
 
-        $quize_md = new Quize();
         $quize_md->registQuizes($group_id, $data);
 
         return response($group_id)->header('Content-Type', 'text/plain');
     }
     // クイズ単体
-    public function show($group_id, $sort_num)
+    public function show($group_id, $sort_num, Quize $quize_md)
     {
         if ($sort_num <= 0) {
             return abort('404');
         }
 
-        $quize_md = new Quize();
         $quize_info = $quize_md->fetchQuize($group_id, $sort_num);
 
         if ($quize_info === false) {
@@ -76,7 +74,7 @@ class QuizeController extends Controller
 
         return view('quize.edit', compact('group', 'quizzes'));
     }
-    public function update(Request $request)
+    public function update(Request $request, Quize $quize_md)
     {
         $json = $request->getContent();
         $data = json_decode($json, true);
@@ -89,7 +87,6 @@ class QuizeController extends Controller
             return response('アップデート対象が存在しません。', 404);
         }
 
-        $quize_md = new Quize();
         if ($array_length === 1) {
             $quize_md->updateQuizzesWithoutContents($group_id);
         } else {

@@ -80,4 +80,21 @@ class QuizeGroup extends Model
 
         return $edit_list;
     }
+    public function getUserQuizeGroups($user_id)
+    {
+
+        $quize_groups = DB::table('quize_groups')
+            ->select(['name', 'user_id', 'name_jp', 'quize_groups.id as id', 'title', 'goodCount' => function (QueryBuilder $query) {
+                $query
+                    ->selectRaw('count(*)')
+                    ->from('goods')
+                    ->whereRaw('goods.quize_group_id = quize_groups.id')
+                    ->groupBy('quize_groups.id');
+            }])
+            ->join('categories', 'categories.id', '=', 'quize_groups.id')
+            ->where('user_id', $user_id)
+            ->paginate(10);
+
+        return $quize_groups;
+    }
 }

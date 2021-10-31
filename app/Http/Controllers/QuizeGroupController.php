@@ -37,7 +37,7 @@ class QuizeGroupController extends Controller
         return redirect()->route('quize.create', ['quize_group' => $id]);
     }
     // クイズグループ
-    public function show($id)
+    public function show($id, Quize $quizemd)
     {
         $quize_groupmd = new QuizeGroup();
         $group = $quize_groupmd->getQuizeGroup($id);
@@ -46,13 +46,11 @@ class QuizeGroupController extends Controller
             abort('404');
         }
 
-        $quizemd = new Quize();
-
         $status = LikeService::searchLikeStatus($group->group_id);
 
         return view('quize-group.show', ['group' => $group, 'count' => $quizemd->getQuizeCount($group->group_id)], $status);
     }
-    public function result($id)
+    public function result($id, Quize $quizemd)
     {
         $group = DB::table('quize_groups')
             ->where('id', $id)
@@ -62,7 +60,6 @@ class QuizeGroupController extends Controller
             abort('404');
         }
 
-        $quizemd = new Quize();
         $status = LikeService::searchLikeStatus($group->id);
 
         return view('quize-group.result', ['group' => $group, 'count' => $quizemd->getQuizeCount($group->id)], $status);

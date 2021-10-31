@@ -9,9 +9,8 @@ use Illuminate\Support\Facades\DB;
 
 class LikeController extends Controller
 {
-    public function favoriteIndex()
+    public function favoriteIndex(Favorite $favorite_md)
     {
-        $favorite_md = new Favorite();
         $favorites = $favorite_md->fetchFavorites();
 
         return view('favorite.index', compact('favorites'));

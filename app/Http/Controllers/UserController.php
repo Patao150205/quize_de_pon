@@ -2,39 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\QuizeGroup;
 use App\Models\User;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Database\Query\Builder as QueryBuilder;
 
 class UserController extends Controller
 {
-    public function show($id)
+    public function show($id, QuizeGroup $quize_groups_md)
     {
         $user = DB::table('users')
             ->select(['id', 'name', 'profile_img', 'profile'])
             ->where('id', $id)
-            ->get();
+            ->first();
 
-        if ($user->isEmpty()) {
+        if (empty($user)) {
             abort('404');
         }
 
-        $quize_groups = DB::table('quize_groups')
-            ->select(['name', 'user_id', 'name_jp', 'quize_groups.id as id', 'title', 'goodCount' => function (QueryBuilder $query) {
-                $query
-                    ->selectRaw('count(*)')
-                    ->from('goods')
-                    ->whereRaw('goods.quize_group_id = quize_groups.id')
-                    ->groupBy('quize_groups.id');
-            }])
-            ->join('categories', 'categories.id', '=', 'quize_groups.id')
-            ->where('user_id', $id)
-            ->paginate(10);
+        $quize_groups = $quize_groups_md->getUserQuizeGroups($id);
 
-        return view('user.show', ['user' => $user[0]], compact('quize_groups'));
+        return view('user.show', ['user' => $user], compact('quize_groups'));
     }
     public function edit()
     {
@@ -42,28 +32,21 @@ class UserController extends Controller
 
         return view('user.edit', compact('user'));
     }
-    public function update(Request $request)
+    public function update(Request $request, ImageService $imageService)
     {
         // 画像の圧縮
         $file = $request->profile_img;
+        $before_img_name = $request->before_img_name;
 
         if (!is_null($file)) {
-            $filename = date('Y-m-d-H:i:s') . '-' . $file->getClientOriginalName();
-
-            $compressedImg =  \InterventionImage::make($file)->resize(160, 100)->encode();
-            Storage::put('public/profile_img/' . $filename, $compressedImg);
-
-            if (!is_null($request->before_img_name)) {
-                $targetImg = 'public/profile_img/' . $request->before_img_name;
-                Storage::delete($targetImg);
-            }
+            $imageService->uploadImage($file, $before_img_name);
         }
 
         User::where('id', Auth::id())
             ->update([
                 'name' => $request->name,
                 'profile' => $request->profile,
-                'profile_img' => $filename ?? $request->before_img_name,
+                'profile_img' => $filename ?? $before_img_name,
             ]);
 
         return redirect()->route('user.show', ['user' => Auth::id()]);
