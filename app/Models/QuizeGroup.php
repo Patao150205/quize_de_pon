@@ -20,6 +20,25 @@ class QuizeGroup extends Model
         'has_content',
     ];
 
+    // 共通
+    private function quizeCategoryCommonQuery()
+    {
+        return DB::table('quize_groups')
+            ->select(['quize_groups.id', 'title', 'name', 'users.id as user_id', 'goodCount' =>  $this->goodCountSubQuery()])
+            ->join('users', 'users.id', '=', 'quize_groups.user_id')
+            ->where('has_content', '=', '1');
+    }
+    private function goodCountSubQuery()
+    {
+        return function (Builder $query) {
+            $query
+                ->selectRaw('count(*)')
+                ->from('goods')
+                ->whereRaw('goods.quize_group_id = quize_groups.id')
+                ->groupBy('quize_groups.id');
+        };
+    }
+    // クエリ
     public function getQuizeGroup($id)
     {
         $quize_group = DB::table('quize_groups')
@@ -33,32 +52,14 @@ class QuizeGroup extends Model
     }
     public function getAllQuizeGroups()
     {
-        $quize_groups = DB::table('quize_groups')
-            ->select(['quize_groups.id', 'title', 'name', 'users.id as user_id', 'goodCount' => function (Builder $query) {
-                $query
-                    ->selectRaw('count(*)')
-                    ->from('goods')
-                    ->whereRaw('goods.quize_group_id = quize_groups.id')
-                    ->groupBy('quize_groups.id');
-            }])
-            ->join('users', 'users.id', '=', 'quize_groups.user_id')
-            ->where('has_content', '=', '1')
+        $quize_groups =  $this->quizeCategoryCommonQuery()
             ->paginate(10);
 
         return $quize_groups;
     }
     public function getQuizeGroupsForEachCategory($category_id)
     {
-        $quize_groups = DB::table('quize_groups')
-            ->select(['quize_groups.id', 'title', 'name', 'users.id as user_id', 'goodCount' => function (Builder $query) {
-                $query
-                    ->selectRaw('count(*)')
-                    ->from('goods')
-                    ->whereRaw('goods.quize_group_id = quize_groups.id')
-                    ->groupBy('quize_groups.id');
-            }])
-            ->join('users', 'users.id', '=', 'quize_groups.user_id')
-            ->where('has_content', '=', '1')
+        $quize_groups = $this->quizeCategoryCommonQuery()
             ->where('category_id', $category_id)
             ->paginate(10);
 
@@ -67,13 +68,7 @@ class QuizeGroup extends Model
     public function getEditListQuizeGroups()
     {
         $edit_list = DB::table('quize_groups')
-            ->select(['quize_groups.id as quize_group_id', 'title', 'name_jp', 'goodCount' => function (Builder $query) {
-                $query
-                    ->selectRaw('count(*)')
-                    ->from('goods')
-                    ->whereRaw('goods.quize_group_id = quize_groups.id')
-                    ->groupBy('quize_groups.id');
-            }])
+            ->select(['quize_groups.id as quize_group_id', 'title', 'name_jp', 'goodCount' =>  $this->goodCountSubQuery()])
             ->join('categories', 'categories.id', '=', 'quize_groups.category_id')
             ->where('user_id', Auth::id())
             ->paginate(10);
@@ -82,15 +77,8 @@ class QuizeGroup extends Model
     }
     public function getUserQuizeGroups($user_id)
     {
-
         $quize_groups = DB::table('quize_groups')
-            ->select(['name', 'user_id', 'name_jp', 'quize_groups.id as id', 'title', 'goodCount' => function (QueryBuilder $query) {
-                $query
-                    ->selectRaw('count(*)')
-                    ->from('goods')
-                    ->whereRaw('goods.quize_group_id = quize_groups.id')
-                    ->groupBy('quize_groups.id');
-            }])
+            ->select(['name', 'user_id', 'name_jp', 'quize_groups.id as id', 'title', 'goodCount' =>  $this->goodCountSubQuery()])
             ->join('categories', 'categories.id', '=', 'quize_groups.id')
             ->where('user_id', $user_id)
             ->paginate(10);

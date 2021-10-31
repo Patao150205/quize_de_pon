@@ -15,7 +15,7 @@ class LikeTest extends TestCase
     use RefreshDatabase;
 
     // リダイレクト
-    public function test_favorite_screen_can_be_rendered_when_saved_as_bookmark()
+    public function test_favorite_screen_can_be_rendered()
     {
         // お気に入り登録後
         $user = User::factory()->create();
@@ -25,31 +25,11 @@ class LikeTest extends TestCase
         ]);
 
         $response = $this->actingAs($user)->get('/favorite');
+        $quize_group = QuizeGroup::where('id', 1)->first();
 
         $response->assertSee('タイトル');
         $response->assertSee('カテゴリ');
-
-        $response->assertStatus(200);
-    }
-    public function test_favorite_screen_can_be_rendered()
-    {
-        // お気に入り登録後
-        $favorite = Favorite::factory()->create();
-        $user = User::find($favorite->user_id);
-
-        $response = $this->actingAs($user)->get('/favorite');
-
-        $info = DB::table('favorites')
-            ->select(DB::raw('title, users.name, name_jp'))
-            ->join('quize_groups', 'quize_groups.id', '=', 'favorites.quize_group_id')
-            ->join('categories', 'categories.id', '=', 'quize_groups.category_id')
-            ->join('users', 'users.id', '=', 'quize_groups.user_id')
-            ->where('favorites.user_id', $user->id)
-            ->first();
-
-        $response->assertSee($info->name);
-        $response->assertSee($info->title);
-        $response->assertSee($info->name_jp);
+        $response->assertSee($quize_group->title);
 
         $response->assertStatus(200);
     }

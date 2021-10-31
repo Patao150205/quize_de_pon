@@ -26,7 +26,7 @@ class FavoriteFactory extends Factory
         $randomUser = User::all()->random();
         return [
             'user_id' => $randomUser->id,
-            'quize_group_id' => QuizeGroup::where('user_id', $randomUser->id)->first()->id,
+            'quize_group_id' => QuizeGroup::all()->random(),
         ];
     }
 }
